@@ -1,19 +1,21 @@
 using UnityEngine;
 
-public class MapTileManager : MonoBehaviour
+public class MapTileManager : Singleton<MapTileManager>
 {
     [SerializeField] private Vector2 m_MapSize = new Vector2(100, 100);
     [SerializeField] private Vector2Int m_TileQuantity = new Vector2Int(10, 10);
+    private Vector2 m_TileSize = Vector2.zero;
     private TileData[,] m_Tiles = null;
 
     private float MapWidth => m_MapSize.x;
     private float MapHeight => m_MapSize.y;
-    private Vector2 TileSize => new Vector2(MapWidth / m_TileQuantity.x, MapHeight / m_TileQuantity.y);
+    private Vector2 TileSize => m_TileSize != Vector2.zero ? m_TileSize : CalculateTileSize();
 
     #region Unity Methods
     private void Start()
     {
         m_Tiles = new TileData[m_TileQuantity.x, m_TileQuantity.y];
+        m_TileSize = CalculateTileSize();
 
         for (int x = 0; x < m_TileQuantity.x; x++)
         {
@@ -25,13 +27,21 @@ public class MapTileManager : MonoBehaviour
         }
     }
 
-    private void OnDestroy()
+    protected override void OnDestroy()
     {
+        base.OnDestroy();
+
         m_Tiles = null;
+        m_TileSize = Vector2.zero;
     }
     #endregion
 
     #region Helpers
+    private Vector2 CalculateTileSize()
+    {
+        return new Vector2(MapWidth / m_TileQuantity.x, MapHeight / m_TileQuantity.y);
+    }
+
     private Vector3 CalculateWorldPositionForTile(float x, float y)
     {
         Vector2 tileSize = TileSize;
@@ -50,7 +60,7 @@ public class MapTileManager : MonoBehaviour
         {
             for (int y = 0; y < m_TileQuantity.y; y++)
             {
-                Vector3 worldPosition = m_Tiles != null ? m_Tiles[x, y].WorldPosition : CalculateWorldPositionForTile(x, y);
+                Vector3 worldPosition = (m_Tiles != null) ? m_Tiles[x, y].WorldPosition : CalculateWorldPositionForTile(x, y);
                 Vector3 tileCenter = worldPosition + localTileCenter;
                 Gizmos.DrawWireCube(tileCenter, gizmoSize);
             }
