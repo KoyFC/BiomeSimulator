@@ -8,7 +8,6 @@ public class PlayerInputController : Singleton<PlayerInputController>
 
     [SerializeField] private InputActionReference m_MoveAction;
 
-    public static event Action<Vector3> OnPlayerClicked;
     public static event Action<Vector2> OnPlayerMoveInput;
 
     #region Unity Methods
@@ -25,26 +24,7 @@ public class PlayerInputController : Singleton<PlayerInputController>
         m_MoveAction.action.performed -= OnMovePerformed;
         m_MoveAction.action.canceled -= OnMoveCanceled;
     }
-
-    private void Update()
-    {
-        if (Mouse.current.leftButton.wasPressedThisFrame)
-        {
-            HandleLeftClick();
-        }
-    }
     #endregion
-
-    private void HandleLeftClick()
-    {
-        Vector3 mousePosition = Mouse.current.position.value;
-        Ray ray = Camera.main.ScreenPointToRay(mousePosition);
-        if (Physics.Raycast(ray, out RaycastHit hitInfo))
-        {
-            Vector3 worldPosition = hitInfo.point;
-            OnPlayerClicked?.Invoke(worldPosition);
-        }
-    }
 
     #region Callbacks
     private void OnMovePerformed(InputAction.CallbackContext context)
