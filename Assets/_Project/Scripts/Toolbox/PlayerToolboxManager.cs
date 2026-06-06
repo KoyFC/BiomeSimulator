@@ -3,6 +3,9 @@ using UnityEngine;
 
 public class PlayerToolboxManager : Singleton<PlayerToolboxManager>
 {
+    [SerializeField] private ToolBaseSO[] m_Tools;
+    private ToolBaseSO m_CurrentTool = null;
+
     private void OnEnable()
     {
         PlayerInputController.OnPlayerClicked += OnPlayerClicked;
@@ -16,8 +19,8 @@ public class PlayerToolboxManager : Singleton<PlayerToolboxManager>
     private void OnPlayerClicked(Vector3 worldPosition)
     {
         TileData tile = MapTileManager.Instance.GetTileForWorldPosition(worldPosition);
-        if (tile == null) return;
+        if (tile == null || m_CurrentTool == null) return;
 
-        // TODO: Do something
+        m_CurrentTool.UseTool(tile);
     }
 }
