@@ -79,6 +79,38 @@ public class MapTileManager : Singleton<MapTileManager>
             return null;
         }
     }
+
+    public TileData[] GetSurroundingTiles(TileData centerTile)
+    {
+        if (centerTile == null) return null;
+
+        Vector2Int centerIndex = centerTile.TileIndex;
+        TileData[] surroundingTiles = new TileData[8];
+
+        int index = 0;
+        for (int x = -1; x <= 1; x++)
+        {
+            for (int y = -1; y <= 1; y++)
+            {
+                if (x == 0 && y == 0) continue;
+
+                int tileX = centerIndex.x + x;
+                int tileY = centerIndex.y + y;
+
+                if (tileX.IsWithinRange(0, m_TileQuantity.x) && tileY.IsWithinRange(0, m_TileQuantity.y))
+                {
+                    surroundingTiles[index] = m_Tiles[tileX, tileY];
+                }
+                else
+                {
+                    surroundingTiles[index] = null;
+                }
+                index++;
+            }
+        }
+
+        return surroundingTiles;
+    }
     #endregion
 
     #region Gizmos
