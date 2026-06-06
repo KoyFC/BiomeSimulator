@@ -163,7 +163,8 @@ MonoBehaviour:
   m_EnergyConsumptionPerSecond: 1
   m_DigestionEfficiency: 0.9
   m_TimeToMoveBetweenTiles: 0.5
-  m_HungerThreshold: 50
+  m_HungerThreshold: 1
+  m_StopEatingThreshold: 0.8
   m_EnergyBiteSize: 10
 --- !u!1001 &326842542305649145
 PrefabInstance:

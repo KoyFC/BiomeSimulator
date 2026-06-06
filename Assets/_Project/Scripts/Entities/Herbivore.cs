@@ -58,11 +58,19 @@ public class Herbivore : AnimalBase, IConsumable
         float energyConsumed = consumable.Consume(energyToEat);
         AddEnergy(energyConsumed * m_DigestionEfficiency);
 
-        if (m_Energy >= m_HungerThreshold)
+        bool isSatisfied = m_Energy >= m_MaxEnergy * m_StopEatingThreshold;
+        bool isAboveCriticalHunger = m_Energy >= m_MaxEnergy * m_HungerThreshold;
+        bool hasFoodLeft = consumable.AvailableEnergy > 0f;
+
+        if (isSatisfied)
         {
             m_CurrentState = AnimalState.WANDER;
         }
-        else if (consumable.AvailableEnergy <= 0f)
+        else if (isAboveCriticalHunger && !hasFoodLeft) // ik it can be in the same if as the last one but it's more clear to read this way
+        {
+            m_CurrentState = AnimalState.WANDER;
+        }
+        else if (!hasFoodLeft)
         {
             m_CurrentState = AnimalState.SEARCH_FOOD;
         }

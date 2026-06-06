@@ -18,7 +18,8 @@ public abstract class AnimalBase : EntityBase
     protected bool IsMoving => m_MoveTimer < m_TimeToMoveBetweenTiles;
 
     [Header("Hunger")]
-    [SerializeField, Min(0f)] protected float m_HungerThreshold = 50f;
+    [SerializeField, Range(0f, 1f)] protected float m_HungerThreshold = 0.5f;
+    [SerializeField, Range(0f, 1f)] protected float m_StopEatingThreshold = 0.9f;
 
     [Header("Eating")]
     [SerializeField, Min(0f)] protected float m_EnergyBiteSize = 10f; // How much energy MAX the animal can get in a tick
@@ -78,7 +79,7 @@ public abstract class AnimalBase : EntityBase
         TileData randomTile = surroundingTiles[Random.Range(0, surroundingTiles.Length)];
         if (randomTile != null) MoveToTile(randomTile);
 
-        if (m_Energy < m_HungerThreshold)
+        if (m_Energy < m_MaxEnergy * m_HungerThreshold)
         {
             m_CurrentState = AnimalState.SEARCH_FOOD;
         }
