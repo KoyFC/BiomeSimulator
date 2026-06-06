@@ -3,7 +3,8 @@ using UnityEngine;
 public abstract class EntityBase : MonoBehaviour
 {
     [SerializeField] private float m_InitialEnergy = 100f;
-    protected float m_Energy = 0f; // 0 to 100
+    [SerializeField] protected float m_MaxEnergy = 100f;
+    protected float m_Energy = 0f;
     protected TileData m_CurrentTile = null;
 
     [Header("Energy")]
@@ -37,14 +38,15 @@ public abstract class EntityBase : MonoBehaviour
     #region Energy
     protected void AddEnergy(float amount)
     {
-        m_Energy = Mathf.Clamp(m_Energy + amount, 0f, 100f);
+        m_Energy = Mathf.Clamp(m_Energy + amount, 0f, m_MaxEnergy);
     }
 
     protected void ConsumeEnergy(float amount)
     {
-        m_Energy = Mathf.Max(0f, m_Energy - amount);
-        if (m_Energy == 0f)
+        m_Energy = m_Energy - amount;
+        if (m_Energy <= 0f)
         {
+            m_Energy = 0f;
             Die();
         }
     }

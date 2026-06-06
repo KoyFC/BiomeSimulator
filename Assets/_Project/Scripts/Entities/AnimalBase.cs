@@ -9,13 +9,16 @@ public abstract class AnimalBase : EntityBase
         EAT
     }
 
+    private AnimalState m_CurrentState = AnimalState.WANDER;
+
     [Header("Movement")]
     [SerializeField, Min(0f)] private float m_TimeToMoveBetweenTiles = 0.5f;
     private float m_MoveTimer = 0f;
     protected Vector3 m_TargetPosition = Vector3.zero;
     protected bool IsMoving => m_MoveTimer < m_TimeToMoveBetweenTiles;
 
-    private AnimalState m_CurrentState = AnimalState.WANDER;
+    [Header("Hunger")]
+    [SerializeField, Min(0f)] private float m_HungerThreshold = 50f;
 
     public override void Initialize(TileData startingTile)
     {
@@ -71,9 +74,14 @@ public abstract class AnimalBase : EntityBase
 
         TileData randomTile = surroundingTiles[Random.Range(0, surroundingTiles.Length)];
         if (randomTile != null) MoveToTile(randomTile);
+
+        if (m_Energy < m_HungerThreshold)
+        {
+            m_CurrentState = AnimalState.SEARCH_FOOD;
+        }
     }
 
-    protected virtual void HandleSearchFoodState() { }
-    protected virtual void HandleEatState() { }
+    protected abstract void HandleSearchFoodState();
+    protected abstract void HandleEatState();
     #endregion
 }
