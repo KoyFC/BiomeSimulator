@@ -2,8 +2,10 @@ using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class PlayerInputController : MonoBehaviour
+public class PlayerInputController : Singleton<PlayerInputController>
 {
+    private static readonly Key[] s_SlotKeys = { Key.Digit1, Key.Digit2, Key.Digit3, Key.Digit4, Key.Digit5, Key.Digit6, Key.Digit7, Key.Digit8, Key.Digit9, Key.Digit0 };
+
     [SerializeField] private InputActionReference m_MoveAction;
 
     public static event Action<Vector3> OnPlayerClicked;
@@ -54,6 +56,27 @@ public class PlayerInputController : MonoBehaviour
     private void OnMoveCanceled(InputAction.CallbackContext context)
     {
         OnPlayerMoveInput?.Invoke(Vector2.zero);
+    }
+    #endregion
+
+    #region Slot Selection
+    public static int GetSlotKeyPressed(int maxSlots)
+    {
+        int count = Mathf.Min(maxSlots, s_SlotKeys.Length);
+        for (int i = 0; i < count; i++)
+        {
+            if (Keyboard.current[s_SlotKeys[i]].wasPressedThisFrame)
+                return i;
+        }
+        return -1;
+    }
+
+    public static int GetMouseScroll()
+    {
+        float scroll = Mouse.current.scroll.ReadValue().y;
+        if (scroll > 0f) return -1;
+        if (scroll < 0f) return 1;
+        return 0;
     }
     #endregion
 }
