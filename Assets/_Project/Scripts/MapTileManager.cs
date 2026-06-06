@@ -43,22 +43,16 @@ public class MapTileManager : MonoBehaviour
     private void OnDrawGizmos()
     {
         Vector2 tileSize = TileSize;
+        Vector3 gizmoSize = new Vector3(tileSize.x, 0.1f, tileSize.y);
+        Vector3 localTileCenter = new Vector3(tileSize.x / 2, 0, tileSize.y / 2);
 
         for (int x = 0; x < m_TileQuantity.x; x++)
         {
             for (int y = 0; y < m_TileQuantity.y; y++)
             {
-                Vector3 worldPosition;
-                if (m_Tiles != null)
-                {
-                    worldPosition = m_Tiles[x, y].WorldPosition;
-                }
-                else
-                {
-                    worldPosition = CalculateWorldPositionForTile(x, y);
-                }
-
-                Gizmos.DrawWireCube(worldPosition + new Vector3(tileSize.x / 2, 0, tileSize.y / 2), new Vector3(tileSize.x, 0.1f, tileSize.y));
+                Vector3 worldPosition = m_Tiles != null ? m_Tiles[x, y].WorldPosition : CalculateWorldPositionForTile(x, y);
+                Vector3 tileCenter = worldPosition + localTileCenter;
+                Gizmos.DrawWireCube(tileCenter, gizmoSize);
             }
         }
     }
