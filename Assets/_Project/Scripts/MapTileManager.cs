@@ -49,6 +49,28 @@ public class MapTileManager : Singleton<MapTileManager>
     }
     #endregion
 
+    #region Public Methods
+    public TileData GetTileForWorldPosition(int x, int z)
+    {
+        Vector2 tileSize = TileSize;
+        int tileX = Mathf.FloorToInt((x + MapWidth / 2) / tileSize.x);
+        int tileY = Mathf.FloorToInt((z + MapHeight / 2) / tileSize.y);
+
+        bool isWithinX = tileX.IsWithinRange(0, m_TileQuantity.x);
+        bool isWithinY = tileY.IsWithinRange(0, m_TileQuantity.y);
+
+        if (isWithinX && isWithinY)
+        {
+            return m_Tiles[tileX, tileY];
+        }
+        else
+        {
+            Debug.LogWarning($"[MapTileManager] World position ({x}, {z}) is outside of the map.");
+            return null;
+        }
+    }
+    #endregion
+
     #region Gizmos
     private void OnDrawGizmos()
     {
