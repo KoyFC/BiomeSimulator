@@ -3,19 +3,18 @@ using UnityEngine.UI;
 
 public class EnergyDisplay : MonoBehaviour
 {
-    [SerializeField] private EntityBase m_Entity = null;
-    [SerializeField] private Slider m_EnergySlider = null;
+    private EntityBase m_Entity = null;
+    [SerializeField] private Transform m_FillImageTransform = null;
 
     private void Awake()
     {
-        if (m_Entity == null) m_Entity = GetComponentInParent<EntityBase>();
-        if (m_EnergySlider == null) m_EnergySlider = GetComponentInChildren<Slider>();
+        m_Entity = GetComponentInParent<EntityBase>();
     }
 
     private void Update()
     {
-        if (m_Entity == null || m_EnergySlider == null) return;
+        if (m_Entity == null || m_FillImageTransform == null) return;
 
-        m_EnergySlider.value = m_Entity.Energy / m_Entity.MaxEnergy;
+        m_FillImageTransform.localScale = new Vector3(m_Entity.Energy / m_Entity.MaxEnergy, 1f, 1f);
     }
 }
