@@ -2,13 +2,14 @@ using UnityEngine;
 
 public abstract class EntityBase : MonoBehaviour
 {
-    [SerializeField] private float m_InitialEnergy = 100f;
-    [SerializeField] protected float m_MaxEnergy = 100f;
-    protected float m_Energy = 0f;
     protected TileData m_CurrentTile = null;
 
     [Header("Energy")]
+    [SerializeField] private float m_InitialEnergy = 100f;
+    [SerializeField] protected float m_MaxEnergy = 100f;
     [SerializeField, Min(0f)] protected float m_EnergyConsumptionPerSecond = 1f;
+    [SerializeField, Range(0f, 1f)] protected float m_DigestionEfficiency = 0.9f; // How much of the energy is actually gained when consuming food / nutrients
+    protected float m_Energy = 0f;
 
     public virtual void Initialize(TileData startingTile)
     {
