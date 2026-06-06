@@ -25,6 +25,16 @@ public abstract class EntityBase : MonoBehaviour
     }
 
     #region Unity Methods
+    protected virtual void OnEnable()
+    {
+        TickManager.OnTick += OnTick;
+    }
+
+    protected virtual void OnDisable()
+    {
+        TickManager.OnTick -= OnTick;
+    }
+
     protected virtual void Update()
     {
         if (m_CurrentTile == null) return;
@@ -60,10 +70,9 @@ public abstract class EntityBase : MonoBehaviour
     #endregion
 
     #region Ticking
-    // TODO: Use a static event to use ticks and divide by tick rate
     protected virtual void OnTick()
     {
-        // ConsumeEnergy(m_EnergyConsumptionPerSecond);
+        ConsumeEnergy(m_EnergyConsumptionPerSecond * TickManager.TickTime);
     }
     #endregion
 
