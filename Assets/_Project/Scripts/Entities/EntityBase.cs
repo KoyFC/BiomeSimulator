@@ -11,6 +11,9 @@ public abstract class EntityBase : MonoBehaviour
     [SerializeField, Range(0f, 1f)] protected float m_DigestionEfficiency = 0.9f; // How much of the energy is actually gained when consuming food / nutrients
     protected float m_Energy = 0f;
 
+    public float Energy => m_Energy;
+    public float MaxEnergy => m_MaxEnergy;
+
     public virtual void Initialize(TileData startingTile)
     {
         m_Energy = m_InitialEnergy;

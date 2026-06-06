@@ -5,7 +5,6 @@ public class CameraController : MonoBehaviour
 {
     [SerializeField] private CinemachineCamera m_CinemachineCamera = null;
     [SerializeField] private float m_MoveSpeed = 5f;
-    [SerializeField] private float m_ZoomSpeed = 5f;
 
     private Vector2 m_MoveInput = Vector2.zero;
 
