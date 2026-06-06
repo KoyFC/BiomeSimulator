@@ -3,6 +3,7 @@ using UnityEngine;
 public abstract class EntityBase : MonoBehaviour
 {
     protected TileData m_CurrentTile = null;
+    public TileData CurrentTile => m_CurrentTile;
 
     [Header("Energy")]
     [SerializeField] private float m_InitialEnergy = 100f;

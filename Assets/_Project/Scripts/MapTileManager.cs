@@ -9,6 +9,7 @@ public class MapTileManager : Singleton<MapTileManager>
     [SerializeField] private Vector2Int m_TileQuantity = new Vector2Int(10, 10);
     private Vector2 m_TileSize = Vector2.zero;
     private TileData[,] m_Tiles = null;
+    private readonly HashSet<TileData> m_HighlightedTiles = new();
 
     [Header("Gizmos")]
     [SerializeField] private bool m_OnlyDrawSelected = true;
@@ -48,6 +49,28 @@ public class MapTileManager : Singleton<MapTileManager>
         m_Tiles = null;
         m_TileSize = Vector2.zero;
     }
+
+    private void Update()
+    {
+        m_HighlightedTiles.Clear();
+
+        if (m_Tiles == null) return;
+
+        Vector3 mouseWorldPosition = PlayerInputController.Instance.GetMouseWorldPosition();
+        TileData hoveredTile = GetTileForWorldPosition(mouseWorldPosition);
+        if (hoveredTile == null) return;
+
+        m_HighlightedTiles.Add(hoveredTile);
+
+        TileData[] surroundingTiles = GetSurroundingTiles(hoveredTile);
+        if (surroundingTiles != null)
+        {
+            for (int i = 0; i < surroundingTiles.Length; i++)
+            {
+                if (surroundingTiles[i] != null) m_HighlightedTiles.Add(surroundingTiles[i]);
+            }
+        }
+    }
     #endregion
 
     #region Helpers
@@ -69,6 +92,11 @@ public class MapTileManager : Singleton<MapTileManager>
     #endregion
 
     #region Public Methods
+    public bool IsTileHighlighted(TileData tile)
+    {
+        return tile != null && m_HighlightedTiles.Contains(tile);
+    }
+
     public TileData GetTileForWorldPosition(Vector3 worldPosition)
     {
         return GetTileForWorldPosition(worldPosition.x, worldPosition.z);

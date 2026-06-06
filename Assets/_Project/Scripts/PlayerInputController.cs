@@ -59,6 +59,17 @@ public class PlayerInputController : Singleton<PlayerInputController>
     }
     #endregion
 
+    public Vector3 GetMouseWorldPosition()
+    {
+        Vector3 mousePosition = Mouse.current.position.value;
+        Ray ray = Camera.main.ScreenPointToRay(mousePosition);
+        if (Physics.Raycast(ray, out RaycastHit hitInfo))
+        {
+            return hitInfo.point;
+        }
+        return Vector3.zero;
+    }
+
     #region Slot Selection
     public static int GetSlotKeyPressed(int maxSlots)
     {

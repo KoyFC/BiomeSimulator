@@ -5,6 +5,7 @@ public class EnergyDisplay : MonoBehaviour
 {
     private EntityBase m_Entity = null;
     [SerializeField] private Transform m_FillImageTransform = null;
+    [SerializeField] private GameObject m_Container = null;
 
     private void Awake()
     {
@@ -15,6 +16,12 @@ public class EnergyDisplay : MonoBehaviour
     {
         if (m_Entity == null || m_FillImageTransform == null) return;
 
-        m_FillImageTransform.localScale = new Vector3(m_Entity.Energy / m_Entity.MaxEnergy, 1f, 1f);
+        bool visible = MapTileManager.Instance.IsTileHighlighted(m_Entity.CurrentTile);
+        if (m_Container != null) m_Container.SetActive(visible);
+
+        if (visible)
+        {
+            m_FillImageTransform.localScale = new Vector3(m_Entity.Energy / m_Entity.MaxEnergy, 1f, 1f);
+        }
     }
 }

@@ -229,6 +229,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnergyDisplay
   m_FillImageTransform: {fileID: 4612307157028346675}
+  m_Container: {fileID: 5352335078721436667}
 --- !u!114 &5893586081960538001
 MonoBehaviour:
   m_ObjectHideFlags: 0
