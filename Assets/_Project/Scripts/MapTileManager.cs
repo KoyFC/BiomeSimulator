@@ -80,6 +80,7 @@ public class MapTileManager : Singleton<MapTileManager>
         }
     }
 
+    // Maybe in the future use a ref to an array
     public TileData[] GetSurroundingTiles(TileData centerTile)
     {
         if (centerTile == null) return null;
