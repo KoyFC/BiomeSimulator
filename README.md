@@ -1,2 +1,3 @@
 # BiomeSimulator
- Made in Unity
+
+**Bioma Inestable**: Esta prueba consiste en el diseño y desarrollo de un prototipo en el que el jugador debe mantener el equilibrio de un ecosistema dinámico compuesto por múltiples especies o entidades autónomas. Cada tipo de entidad sigue comportamientos propios y compite, coopera o reacciona ante cambios del entorno. El jugador no controla directamente a las criaturas, sino que modifica indirectamente el ecosistema mediante herramientas limitadas: alterar recursos, clima, terreno, rutas, estímulos o eventos. El sistema debe ser capaz de generar situaciones emergentes y evolucionar con el tiempo. La partida termina cuando el ecosistema colapsa o deja de cumplir determinadas condiciones mínimas de estabilidad.
