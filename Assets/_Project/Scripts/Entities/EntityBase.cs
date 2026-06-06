@@ -2,6 +2,7 @@ using UnityEngine;
 
 public abstract class EntityBase : MonoBehaviour
 {
+    [SerializeField] private float m_InitialEnergy = 100f;
     protected float m_Energy = 0f; // 0 to 100
     protected TileData m_CurrentTile = null;
     protected Vector3 m_TargetPosition = Vector3.zero;
@@ -9,28 +10,35 @@ public abstract class EntityBase : MonoBehaviour
     [Header("Movement")]
     [SerializeField, Min(0f)] private float m_TimeToMoveBetweenTiles = 0.5f;
     private float m_MoveTimer = 0f;
+    protected bool IsMoving => m_MoveTimer < m_TimeToMoveBetweenTiles;
 
     [Header("Energy")]
     [SerializeField, Min(0f)] protected float m_EnergyConsumptionPerSecond = 1f;
 
+    public void Initialize(TileData startingTile)
+    {
+        m_Energy = m_InitialEnergy;
+
+        MoveToTile(startingTile);
+        transform.position = startingTile.WorldPosition;
+        m_MoveTimer = m_TimeToMoveBetweenTiles;
+    }
+
+    #region Unity Methods
     protected virtual void Update()
     {
         if (m_CurrentTile == null) return;
 
-        if (m_MoveTimer <= m_TimeToMoveBetweenTiles)
+        if (IsMoving)
         {
             m_MoveTimer += Time.deltaTime;
             float t = Mathf.Clamp01(m_MoveTimer / m_TimeToMoveBetweenTiles);
             transform.position = Vector3.Lerp(transform.position, m_TargetPosition, t);
         }
     }
+    #endregion
 
-    // TODO: Use a static event to use ticks and divide by tick rate
-    protected virtual void OnTick()
-    {
-        // ConsumeEnergy(m_EnergyConsumptionPerSecond);
-    }
-
+    #region Energy
     protected void AddEnergy(float amount)
     {
         m_Energy = Mathf.Clamp(m_Energy + amount, 0f, 100f);
@@ -45,6 +53,20 @@ public abstract class EntityBase : MonoBehaviour
         }
     }
 
+    protected virtual void Die()
+    {
+        Destroy(gameObject);
+    }
+    #endregion
+
+    #region Ticking
+    // TODO: Use a static event to use ticks and divide by tick rate
+    protected virtual void OnTick()
+    {
+        // ConsumeEnergy(m_EnergyConsumptionPerSecond);
+    }
+    #endregion
+
     protected void MoveToTile(TileData tile)
     {
         if (tile == null) return;
@@ -55,10 +77,5 @@ public abstract class EntityBase : MonoBehaviour
 
         m_TargetPosition = tile.WorldPosition;
         m_MoveTimer = 0f;
-    }
-
-    protected virtual void Die()
-    {
-        Destroy(gameObject);
     }
 }
