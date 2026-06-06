@@ -3,6 +3,7 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "Nutrient Tool", menuName = "Scriptable Objects/Tools/Nutrient Tool")]
 public class NutrientToolSO : ToolBaseSO
 {
+    [Header("Nutrients")]
     [SerializeField, Min(0f)] private float m_NutrientAmount = 10f;
 
     public override void UseTool(TileData targetTile)

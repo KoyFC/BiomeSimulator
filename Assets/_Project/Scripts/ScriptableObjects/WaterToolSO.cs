@@ -3,6 +3,7 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "Water Tool", menuName = "Scriptable Objects/Tools/Water Tool")]
 public class WaterToolSO : ToolBaseSO
 {
+    [Header("Water")]
     [SerializeField, Min(0f)] private float m_WaterAmount = 10f;
 
     public override void UseTool(TileData targetTile)
