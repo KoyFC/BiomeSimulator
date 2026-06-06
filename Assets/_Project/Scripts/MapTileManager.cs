@@ -2,10 +2,15 @@ using UnityEngine;
 
 public class MapTileManager : Singleton<MapTileManager>
 {
+    [Header("Map")]
     [SerializeField] private Vector2 m_MapSize = new Vector2(100, 100);
     [SerializeField] private Vector2Int m_TileQuantity = new Vector2Int(10, 10);
     private Vector2 m_TileSize = Vector2.zero;
     private TileData[,] m_Tiles = null;
+
+    [Header("Gizmos")]
+    [SerializeField] private bool m_OnlyDrawSelected = true;
+    [SerializeField] private Color m_GizmoColor = Color.red;
 
     private float MapWidth => m_MapSize.x;
     private float MapHeight => m_MapSize.y;
@@ -74,6 +79,18 @@ public class MapTileManager : Singleton<MapTileManager>
     #region Gizmos
     private void OnDrawGizmos()
     {
+        if (m_OnlyDrawSelected) return;
+        DrawGizmos();
+    }
+
+    private void OnDrawGizmosSelected()
+    {
+        if (!m_OnlyDrawSelected) return;
+        DrawGizmos();
+    }
+
+    private void DrawGizmos()
+    {
         Vector2 tileSize = TileSize;
         Vector3 gizmoSize = new Vector3(tileSize.x, 0.1f, tileSize.y);
         Vector3 localTileCenter = new Vector3(tileSize.x / 2, 0, tileSize.y / 2);
@@ -84,6 +101,7 @@ public class MapTileManager : Singleton<MapTileManager>
             {
                 Vector3 worldPosition = (m_Tiles != null) ? m_Tiles[x, y].WorldPosition : CalculateWorldPositionForTile(x, y);
                 Vector3 tileCenter = worldPosition + localTileCenter;
+                Gizmos.color = m_GizmoColor;
                 Gizmos.DrawWireCube(tileCenter, gizmoSize);
             }
         }
