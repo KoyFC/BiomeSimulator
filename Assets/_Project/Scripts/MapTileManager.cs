@@ -55,7 +55,7 @@ public class MapTileManager : Singleton<MapTileManager>
     #endregion
 
     #region Public Methods
-    public TileData GetTileForWorldPosition(int x, int z)
+    public TileData GetTileForWorldPosition(float x, float z)
     {
         Vector2 tileSize = TileSize;
         int tileX = Mathf.FloorToInt((x + MapWidth / 2) / tileSize.x);
