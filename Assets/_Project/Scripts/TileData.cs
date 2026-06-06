@@ -11,8 +11,8 @@ public class TileData
     public float Nutrients { get; private set; } = 0f;
     public const float MAX_NUTRIENTS = 100f;
 
-
     private HashSet<EntityBase> m_EntitiesOnTile = new();
+    public bool IsOccupied => m_EntitiesOnTile.Count > 0;
 
     public TileData(Vector2Int tileIndex, Vector3 worldPosition)
     {

@@ -1,3 +1,5 @@
+using System.Linq;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class MapTileManager : Singleton<MapTileManager>
@@ -117,6 +119,15 @@ public class MapTileManager : Singleton<MapTileManager>
         }
 
         return surroundingTiles;
+    }
+
+    public TileData GetRandomEmptyTile()
+    {
+        if (m_Tiles == null) return null;
+
+        List<TileData> emptyTiles = m_Tiles.Cast<TileData>().Where(tile => tile != null && !tile.IsOccupied).ToList();
+        if (emptyTiles.Count == 0) return null;
+        return emptyTiles[Random.Range(0, emptyTiles.Count)];
     }
     #endregion
 
