@@ -55,6 +55,11 @@ public class MapTileManager : Singleton<MapTileManager>
     #endregion
 
     #region Public Methods
+    public TileData GetTileForWorldPosition(Vector3 worldPosition)
+    {
+        return GetTileForWorldPosition(worldPosition.x, worldPosition.z);
+    }
+
     public TileData GetTileForWorldPosition(float x, float z)
     {
         Vector2 tileSize = TileSize;
