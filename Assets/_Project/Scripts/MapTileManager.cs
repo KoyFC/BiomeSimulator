@@ -28,6 +28,12 @@ public class MapTileManager : Singleton<MapTileManager>
             {
                 Vector3 worldPosition = CalculateWorldPositionForTile(x, y);
                 m_Tiles[x, y] = new TileData(new Vector2Int(x, y), worldPosition);
+
+                float randomNormalValue = (Random.value + Random.value + Random.value) / 3f; // Simulate normal distribution thanks JM
+                float initialHumidity = randomNormalValue * TileData.MAX_HUMIDITY;
+                m_Tiles[x, y].AddHumidity(initialHumidity);
+                float initialNutrients = randomNormalValue * TileData.MAX_NUTRIENTS;
+                m_Tiles[x, y].AddNutrients(initialNutrients);
             }
         }
     }
