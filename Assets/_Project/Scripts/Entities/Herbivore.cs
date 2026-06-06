@@ -4,7 +4,40 @@ public class Herbivore : AnimalBase, IConsumable
 {
     protected override void HandleSearchFoodState()
     {
-        throw new System.NotImplementedException();
+        if (m_CurrentTile == null) return;
+
+        IConsumable consumable = m_CurrentTile.GetConsumable(ConsumableType.PLANT);
+        if (consumable != null)
+        {
+            m_CurrentState = AnimalState.EAT;
+            return;
+        }
+
+        // Could cause issues if multiple herbivores try to go to the same tile but it's fine for now
+        TileData[] surroundingTiles = MapTileManager.Instance.GetSurroundingTiles(m_CurrentTile);
+        TileData bestTile = null;
+        float highestEnergy = 0f;
+        foreach (TileData tile in surroundingTiles)
+        {
+            if (tile == null) continue;
+
+            IConsumable tileConsumable = tile.GetConsumable(ConsumableType.PLANT);
+            if (tileConsumable != null && tileConsumable.AvailableEnergy > highestEnergy)
+            {
+                highestEnergy = tileConsumable.AvailableEnergy;
+                bestTile = tile;
+            }
+        }
+
+        if (bestTile != null)
+        {
+            MoveToTile(bestTile);
+        }
+        else
+        {
+            // Next tick, the herbivore will move to a random tile and enter this state again
+            m_CurrentState = AnimalState.WANDER;
+        }
     }
 
     protected override void HandleEatState()
