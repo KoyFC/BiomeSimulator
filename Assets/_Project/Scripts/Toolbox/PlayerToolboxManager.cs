@@ -6,6 +6,11 @@ public class PlayerToolboxManager : Singleton<PlayerToolboxManager>
     [SerializeField] private ToolBaseSO[] m_Tools;
     private ToolBaseSO m_CurrentTool = null;
 
+    private void Start()
+    {
+        if (m_Tools.Length > 0) m_CurrentTool = m_Tools[0];
+    }
+
     private void OnEnable()
     {
         PlayerInputController.OnPlayerClicked += OnPlayerClicked;
