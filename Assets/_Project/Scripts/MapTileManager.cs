@@ -16,11 +16,12 @@ public class MapTileManager : Singleton<MapTileManager>
 
     private float MapWidth => m_MapSize.x;
     private float MapHeight => m_MapSize.y;
-    private Vector2 TileSize => m_TileSize != Vector2.zero ? m_TileSize : CalculateTileSize();
+    public Vector2 TileSize => m_TileSize != Vector2.zero ? m_TileSize : CalculateTileSize();
 
     #region Unity Methods
-    private void Start()
+    protected override void Awake()
     {
+        base.Awake();
         m_Tiles = new TileData[m_TileQuantity.x, m_TileQuantity.y];
         m_TileSize = CalculateTileSize();
 
@@ -58,7 +59,12 @@ public class MapTileManager : Singleton<MapTileManager>
     private Vector3 CalculateWorldPositionForTile(float x, float y)
     {
         Vector2 tileSize = TileSize;
-        return new Vector3(x * tileSize.x, 0, y * tileSize.y) - new Vector3(MapWidth / 2, 0, MapHeight / 2);
+
+        Vector3 tileCenter = new Vector3(tileSize.x / 2f, 0, tileSize.y / 2f);
+        Vector3 worldPosition = new Vector3(x * tileSize.x, 0, y * tileSize.y) + tileCenter;
+        Vector3 worldPositionCentered = worldPosition - new Vector3(MapWidth / 2, 0, MapHeight / 2);
+
+        return worldPositionCentered;
     }
     #endregion
 
@@ -148,14 +154,12 @@ public class MapTileManager : Singleton<MapTileManager>
     {
         Vector2 tileSize = TileSize;
         Vector3 gizmoSize = new Vector3(tileSize.x, 0.1f, tileSize.y);
-        Vector3 localTileCenter = new Vector3(tileSize.x / 2, 0, tileSize.y / 2);
 
         for (int x = 0; x < m_TileQuantity.x; x++)
         {
             for (int y = 0; y < m_TileQuantity.y; y++)
             {
-                Vector3 worldPosition = (m_Tiles != null) ? m_Tiles[x, y].WorldPosition : CalculateWorldPositionForTile(x, y);
-                Vector3 tileCenter = worldPosition + localTileCenter;
+                Vector3 tileCenter = (m_Tiles != null) ? m_Tiles[x, y].WorldPosition : CalculateWorldPositionForTile(x, y);
                 Gizmos.color = m_GizmoColor;
                 Gizmos.DrawWireCube(tileCenter, gizmoSize);
 

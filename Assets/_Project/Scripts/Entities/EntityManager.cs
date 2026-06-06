@@ -46,16 +46,18 @@ public class EntityManager : MonoBehaviour
 
     private void SpawnEntity(EntitySpawnData spawnData, TileData tile)
     {
-        Instantiate(spawnData.EntityData.Prefab, tile.WorldPosition, Quaternion.identity);
+        var entity = Instantiate(spawnData.EntityData.Prefab, tile.WorldPosition, Quaternion.identity);
+        entity.Initialize(tile);
         tile.AddEntity(spawnData.EntityData.Prefab);
     }
 
     private void SpawnCluster(EntitySpawnData spawnData, TileData randomTile)
     {
         TileData[] clusterTiles = MapTileManager.Instance.GetSurroundingTiles(randomTile);
+        SpawnEntity(spawnData, randomTile);
         foreach (TileData tile in clusterTiles)
         {
-            if (tile != null) // When spawning clusters we don't really care if tiles are occupied
+            if (tile != null) // When spawning clusters we don't really care if tiles are occupied. Just a design choice.
             {
                 SpawnEntity(spawnData, tile);
             }

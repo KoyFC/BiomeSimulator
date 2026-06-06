@@ -182,7 +182,7 @@ Camera:
   far clip plane: 1000
   field of view: 60.000004
   orthographic: 1
-  orthographic size: 5
+  orthographic size: 15
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -207,7 +207,7 @@ Transform:
   m_GameObject: {fileID: 330585543}
   serializedVersion: 2
   m_LocalRotation: {x: 0.38268343, y: 0, z: 0, w: 0.92387956}
-  m_LocalPosition: {x: 0, y: 7.67, z: -10}
+  m_LocalPosition: {x: 0, y: 12.5, z: -15}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -608,7 +608,7 @@ MonoBehaviour:
   m_MapSize: {x: 100, y: 100}
   m_TileQuantity: {x: 50, y: 50}
   m_OnlyDrawSelected: 0
-  m_GizmoColor: {r: 1, g: 0, b: 0, a: 1}
+  m_GizmoColor: {r: 0, g: 0, b: 0, a: 1}
 --- !u!4 &448844161
 Transform:
   m_ObjectHideFlags: 0
@@ -616,6 +616,58 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 448844159}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &479923971
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 479923973}
+  - component: {fileID: 479923972}
+  m_Layer: 0
+  m_Name: Entity Manager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &479923972
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 479923971}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fbd60692af8d08008abf519e4afe91e6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EntityManager
+  m_SpawnOnStart: 1
+  m_EntitiesToSpawn:
+  - <EntityData>k__BackingField: {fileID: 11400000, guid: 56b01eaf2a42356958e601ae451f1829, type: 2}
+    <Amount>k__BackingField: 50
+    <SpawnCluster>k__BackingField: 1
+  - <EntityData>k__BackingField: {fileID: 11400000, guid: ff2dc837fe172905b97fd0de45ea4842, type: 2}
+    <Amount>k__BackingField: 20
+    <SpawnCluster>k__BackingField: 0
+--- !u!4 &479923973
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 479923971}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
@@ -698,7 +750,7 @@ MonoBehaviour:
     CustomLookAtTarget: 0
   Lens:
     FieldOfView: 60.000004
-    OrthographicSize: 5
+    OrthographicSize: 15
     NearClipPlane: 0.3
     FarClipPlane: 1000
     Dutch: 0
@@ -725,7 +777,7 @@ Transform:
   m_GameObject: {fileID: 811391082}
   serializedVersion: 2
   m_LocalRotation: {x: 0.38268343, y: 0, z: 0, w: 0.92387956}
-  m_LocalPosition: {x: 0, y: 7.67, z: -10}
+  m_LocalPosition: {x: 0, y: 12.5, z: -15}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -743,8 +795,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f0c534acc00b64a29b5440651d713b7f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CameraController
-  m_CinemachineCamera: {fileID: 0}
-  m_MoveSpeed: 5
+  m_CinemachineCamera: {fileID: 811391083}
+  m_MoveSpeed: 10
   m_ZoomSpeed: 5
 --- !u!1 &832575517
 GameObject:
@@ -1044,6 +1096,7 @@ SceneRoots:
   - {fileID: 1847162279}
   - {fileID: 850140086}
   - {fileID: 411331524}
+  - {fileID: 479923973}
   - {fileID: 841575669}
   - {fileID: 404295146}
   - {fileID: 1760602663}
