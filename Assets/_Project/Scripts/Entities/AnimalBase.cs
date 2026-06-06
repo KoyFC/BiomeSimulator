@@ -9,7 +9,7 @@ public abstract class AnimalBase : EntityBase
         EAT
     }
 
-    private AnimalState m_CurrentState = AnimalState.WANDER;
+    protected AnimalState m_CurrentState = AnimalState.WANDER;
 
     [Header("Movement")]
     [SerializeField, Min(0f)] private float m_TimeToMoveBetweenTiles = 0.5f;
@@ -18,7 +18,10 @@ public abstract class AnimalBase : EntityBase
     protected bool IsMoving => m_MoveTimer < m_TimeToMoveBetweenTiles;
 
     [Header("Hunger")]
-    [SerializeField, Min(0f)] private float m_HungerThreshold = 50f;
+    [SerializeField, Min(0f)] protected float m_HungerThreshold = 50f;
+
+    [Header("Eating")]
+    [SerializeField, Min(0f)] protected float m_EnergyBiteSize = 10f; // How much energy MAX the animal can get in a tick
 
     public override void Initialize(TileData startingTile)
     {
