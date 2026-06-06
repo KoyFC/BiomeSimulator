@@ -1,7 +1,8 @@
 using UnityEngine;
 
-public abstract class PlantBase : EntityBase, IConsumable
+public class PlantBase : EntityBase, IConsumable
 {
+    [Header("Plant")]
     [SerializeField, Min(0f)] private float m_NutrientAbsorptionRate = 5f; // Per tick
 
     protected override void OnTick()
