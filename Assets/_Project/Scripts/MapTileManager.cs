@@ -108,6 +108,15 @@ public class MapTileManager : Singleton<MapTileManager>
                 Vector3 tileCenter = worldPosition + localTileCenter;
                 Gizmos.color = m_GizmoColor;
                 Gizmos.DrawWireCube(tileCenter, gizmoSize);
+
+                if (m_Tiles != null)
+                {
+                    float blue = m_Tiles[x, y].Humidity / TileData.MAX_HUMIDITY;
+                    float green = m_Tiles[x, y].Nutrients / TileData.MAX_NUTRIENTS;
+                    Color fillColor = new Color(0, green, blue, 0.5f);
+                    Gizmos.color = fillColor;
+                    Gizmos.DrawCube(tileCenter, gizmoSize);
+                }
             }
         }
     }
