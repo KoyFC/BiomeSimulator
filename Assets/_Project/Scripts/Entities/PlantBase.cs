@@ -23,7 +23,7 @@ public class PlantBase : EntityBase, IConsumable
 
     protected virtual void TryReproduce()
     {
-        TileData emptyNeighbor = MapTileManager.Instance.GetRandomEmptyNeighbor(m_CurrentTile);
+        TileData emptyNeighbor = MapTileManager.Instance.GetRandomNeighborWithout<PlantBase>(m_CurrentTile);
         if (emptyNeighbor == null) return;
 
         PlantBase child = Instantiate(gameObject, emptyNeighbor.WorldPosition, Quaternion.identity).GetComponent<PlantBase>();

@@ -43,6 +43,15 @@ public class TileData
         m_EntitiesOnTile.Remove(entity);
     }
 
+    public bool HasEntityOfType<T>() where T : EntityBase
+    {
+        foreach (EntityBase entity in m_EntitiesOnTile)
+        {
+            if (entity is T) return true;
+        }
+        return false;
+    }
+
     public IConsumable GetConsumable(ConsumableType type)
     {
         foreach (EntityBase entity in m_EntitiesOnTile)
