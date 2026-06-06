@@ -6,8 +6,11 @@ public class TileData
     public Vector2Int TileIndex { get; private set; }
     public Vector3 WorldPosition { get; private set; }
 
-    public float Humidity { get; private set; } = 0f; // 0 to 100
-    public float Nutrients { get; private set; } = 0f; // 0 to 100
+    public float Humidity { get; private set; } = 0f;
+    public const float MAX_HUMIDITY = 100f;
+    public float Nutrients { get; private set; } = 0f;
+    public const float MAX_NUTRIENTS = 100f;
+
 
     private HashSet<EntityBase> m_EntitiesOnTile = new();
 
@@ -20,12 +23,12 @@ public class TileData
     #region Public Methods
     public void AddHumidity(float amount)
     {
-        Humidity = Mathf.Clamp(Humidity + amount, 0f, 100f);
+        Humidity = Mathf.Clamp(Humidity + amount, 0f, MAX_HUMIDITY);
     }
 
     public void AddNutrients(float amount)
     {
-        Nutrients = Mathf.Clamp(Nutrients + amount, 0f, 100f);
+        Nutrients = Mathf.Clamp(Nutrients + amount, 0f, MAX_NUTRIENTS);
     }
 
     public void AddEntity(EntityBase entity)
