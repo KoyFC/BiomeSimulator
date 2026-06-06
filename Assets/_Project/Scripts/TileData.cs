@@ -42,5 +42,17 @@ public class TileData
         if (entity == null) return;
         m_EntitiesOnTile.Remove(entity);
     }
+
+    public IConsumable GetConsumable(ConsumableType type)
+    {
+        foreach (EntityBase entity in m_EntitiesOnTile)
+        {
+            if (entity is IConsumable consumable && consumable.ConsumableType == type)
+            {
+                return consumable;
+            }
+        }
+        return null;
+    }
     #endregion
 }

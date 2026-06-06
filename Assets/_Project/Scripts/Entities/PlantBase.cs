@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public abstract class PlantBase : EntityBase
+public abstract class PlantBase : EntityBase, IConsumable
 {
     [SerializeField, Min(0f)] private float m_NutrientAbsorptionRate = 5f; // Per tick
 
@@ -17,4 +17,16 @@ public abstract class PlantBase : EntityBase
         m_CurrentTile.AddNutrients(-nutrientsToAbsorb);
         AddEnergy(nutrientsToAbsorb * m_DigestionEfficiency);
     }
+
+    #region IConsumable
+    public float AvailableEnergy => m_Energy;
+    public ConsumableType ConsumableType => ConsumableType.PLANT;
+
+    public float Consume(float biteSize)
+    {
+        float energyToGive = Mathf.Min(biteSize, m_Energy);
+        ConsumeEnergy(energyToGive);
+        return energyToGive;
+    }
+    #endregion
 }
