@@ -15,6 +15,9 @@ public abstract class EntityBase : MonoBehaviour
     [Header("Death")]
     [SerializeField] private float m_NutrientsOnDeath = 20f; // How much energy is released to the tile when the entity dies
 
+    [Header("Reproduction")]
+    [SerializeField, Range(0f, 1f)] protected float m_ReproductionThreshold = 0.9f;
+
     public float Energy => m_Energy;
     public float MaxEnergy => m_MaxEnergy;
 

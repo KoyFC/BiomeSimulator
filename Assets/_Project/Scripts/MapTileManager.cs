@@ -163,6 +163,17 @@ public class MapTileManager : Singleton<MapTileManager>
         if (emptyTiles.Count == 0) return null;
         return emptyTiles[Random.Range(0, emptyTiles.Count)];
     }
+
+    public TileData GetRandomEmptyNeighbor(TileData centerTile)
+    {
+        if (centerTile == null) return null;
+
+        TileData[] surroundingTiles = GetSurroundingTiles(centerTile);
+        List<TileData> emptyNeighbors = surroundingTiles.Where(tile => tile != null && !tile.IsOccupied).ToList();
+
+        if (emptyNeighbors.Count == 0) return null;
+        return emptyNeighbors[Random.Range(0, emptyNeighbors.Count)];
+    }
     #endregion
 
     #region Gizmos

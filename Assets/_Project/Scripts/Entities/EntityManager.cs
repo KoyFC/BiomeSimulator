@@ -48,7 +48,6 @@ public class EntityManager : MonoBehaviour
     {
         var entity = Instantiate(spawnData.EntityData.Prefab, tile.WorldPosition, Quaternion.identity);
         entity.Initialize(tile);
-        tile.AddEntity(spawnData.EntityData.Prefab);
     }
 
     private void SpawnCluster(EntitySpawnData spawnData, TileData randomTile)

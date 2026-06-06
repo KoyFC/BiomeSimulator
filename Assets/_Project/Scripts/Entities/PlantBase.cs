@@ -17,6 +17,19 @@ public class PlantBase : EntityBase, IConsumable
         float nutrientsToAbsorb = Mathf.Min(m_NutrientAbsorptionRate, Mathf.Min(m_CurrentTile.Nutrients, energySpace));
         m_CurrentTile.AddNutrients(-nutrientsToAbsorb);
         AddEnergy(nutrientsToAbsorb * m_DigestionEfficiency);
+
+        if (m_Energy >= m_MaxEnergy * m_ReproductionThreshold) TryReproduce();
+    }
+
+    protected virtual void TryReproduce()
+    {
+        TileData emptyNeighbor = MapTileManager.Instance.GetRandomEmptyNeighbor(m_CurrentTile);
+        if (emptyNeighbor == null) return;
+
+        PlantBase child = Instantiate(gameObject, emptyNeighbor.WorldPosition, Quaternion.identity).GetComponent<PlantBase>();
+        child.Initialize(emptyNeighbor);
+
+        AddEnergy(-m_MaxEnergy * 0.5f);
     }
 
     #region IConsumable

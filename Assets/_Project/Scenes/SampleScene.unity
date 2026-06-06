@@ -796,7 +796,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CameraController
   m_CinemachineCamera: {fileID: 811391083}
-  m_MoveSpeed: 10
+  m_MoveSpeed: 20
 --- !u!1 &832575517
 GameObject:
   m_ObjectHideFlags: 0
