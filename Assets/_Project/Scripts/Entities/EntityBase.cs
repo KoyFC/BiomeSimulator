@@ -12,6 +12,9 @@ public abstract class EntityBase : MonoBehaviour
     [SerializeField, Range(0f, 1f)] protected float m_DigestionEfficiency = 0.9f; // How much of the energy is actually gained when consuming food / nutrients
     protected float m_Energy = 0f;
 
+    [Header("Death")]
+    [SerializeField] private float m_NutrientsOnDeath = 20f; // How much energy is released to the tile when the entity dies
+
     public float Energy => m_Energy;
     public float MaxEnergy => m_MaxEnergy;
 
@@ -58,6 +61,8 @@ public abstract class EntityBase : MonoBehaviour
 
     protected virtual void Die()
     {
+        m_CurrentTile?.AddNutrients(m_NutrientsOnDeath);
+        m_CurrentTile?.RemoveEntity(this);
         Destroy(gameObject);
     }
     #endregion
