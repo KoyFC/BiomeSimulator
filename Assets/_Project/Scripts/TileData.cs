@@ -52,6 +52,18 @@ public class TileData
         return false;
     }
 
+    public T FindMateOfType<T>(T self) where T : EntityBase
+    {
+        foreach (EntityBase entity in m_EntitiesOnTile)
+        {
+            if (entity is T match && match != self && entity.GetType() == self.GetType())
+            {
+                return match;
+            }
+        }
+        return null;
+    }
+
     public IConsumable GetConsumable(ConsumableType type)
     {
         foreach (EntityBase entity in m_EntitiesOnTile)

@@ -79,13 +79,41 @@ public abstract class AnimalBase : EntityBase
         TileData randomTile = surroundingTiles[Random.Range(0, surroundingTiles.Length)];
         if (randomTile != null) MoveToTile(randomTile);
 
+        if (m_Energy > m_MaxEnergy * m_ReproductionThreshold)
+        {
+            TryReproduce();
+        }
+
         if (m_Energy < m_MaxEnergy * m_HungerThreshold)
         {
             m_CurrentState = AnimalState.SEARCH_FOOD;
+            return;
         }
+
+    }
+
+    protected virtual void TryReproduce()
+    {
+        TileData mateTile = MapTileManager.Instance.FindNeighborWithMate<AnimalBase>(m_CurrentTile, this);
+        if (mateTile == null) return;
+
+        AnimalBase mate = mateTile.FindMateOfType(this);
+        if (mate == null) return;
+
+        TileData childTile = MapTileManager.Instance.GetRandomNeighborWithout<AnimalBase>(m_CurrentTile);
+        if (childTile == null) return;
+
+        AnimalBase child = Instantiate(gameObject, childTile.WorldPosition, Quaternion.identity).GetComponent<AnimalBase>();
+        child.Initialize(childTile);
+
+        // Both parents lose energy
+        float energyCost = m_MaxEnergy * m_ReproductionEnergyCost;
+        AddEnergy(-energyCost);
+        mate.AddEnergy(-energyCost);
     }
 
     protected abstract void HandleSearchFoodState();
     protected abstract void HandleEatState();
     #endregion
+
 }

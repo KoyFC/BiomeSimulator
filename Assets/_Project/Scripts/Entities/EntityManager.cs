@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 [Serializable]
@@ -9,11 +10,12 @@ public class EntitySpawnData
     [field: SerializeField] public bool SpawnCluster { get; private set; } // 3x3
 }
 
-public class EntityManager : MonoBehaviour
+public class EntityManager : Singleton<EntityManager>
 {
     [Header("Spawn Settings")]
     [SerializeField] private bool m_SpawnOnStart;
     [SerializeField] private EntitySpawnData[] m_EntitiesToSpawn;
+    private List<EntityBase> m_SpawnedEntities = new List<EntityBase>();
 
     private void Start()
     {
@@ -61,5 +63,15 @@ public class EntityManager : MonoBehaviour
                 SpawnEntity(spawnData, tile);
             }
         }
+    }
+
+    public void AddEntity(EntityBase entity)
+    {
+        m_SpawnedEntities.Add(entity);
+    }
+
+    public void RemoveEntity(EntityBase entity)
+    {
+        m_SpawnedEntities.Remove(entity);
     }
 }

@@ -185,6 +185,17 @@ public class MapTileManager : Singleton<MapTileManager>
         if (validNeighbors.Count == 0) return null;
         return validNeighbors[Random.Range(0, validNeighbors.Count)];
     }
+
+    public TileData FindNeighborWithMate<T>(TileData centerTile, T self) where T : EntityBase
+    {
+        if (centerTile == null) return null;
+
+        TileData[] surroundingTiles = GetSurroundingTiles(centerTile);
+        List<TileData> validNeighbors = surroundingTiles.Where(tile => tile != null && tile.FindMateOfType(self) != null).ToList();
+
+        if (validNeighbors.Count == 0) return null;
+        return validNeighbors[Random.Range(0, validNeighbors.Count)];
+    }
     #endregion
 
     #region Gizmos

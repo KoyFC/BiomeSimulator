@@ -29,7 +29,7 @@ public class PlantBase : EntityBase, IConsumable
         PlantBase child = Instantiate(gameObject, emptyNeighbor.WorldPosition, Quaternion.identity).GetComponent<PlantBase>();
         child.Initialize(emptyNeighbor);
 
-        AddEnergy(-m_MaxEnergy * 0.5f);
+        AddEnergy(-m_MaxEnergy * m_ReproductionEnergyCost);
     }
 
     #region IConsumable

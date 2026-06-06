@@ -17,6 +17,7 @@ public abstract class EntityBase : MonoBehaviour
 
     [Header("Reproduction")]
     [SerializeField, Range(0f, 1f)] protected float m_ReproductionThreshold = 0.9f;
+    [SerializeField, Range(0f, 1f)] protected float m_ReproductionEnergyCost = 0.5f;
 
     public float Energy => m_Energy;
     public float MaxEnergy => m_MaxEnergy;
@@ -27,6 +28,7 @@ public abstract class EntityBase : MonoBehaviour
 
         SetCurrentTile(startingTile);
         transform.position = startingTile.WorldPosition;
+        EntityManager.Instance.AddEntity(this);
     }
 
     #region Unity Methods
@@ -47,7 +49,7 @@ public abstract class EntityBase : MonoBehaviour
     #endregion
 
     #region Energy
-    protected void AddEnergy(float amount)
+    public void AddEnergy(float amount)
     {
         m_Energy = Mathf.Clamp(m_Energy + amount, 0f, m_MaxEnergy);
     }
@@ -66,6 +68,7 @@ public abstract class EntityBase : MonoBehaviour
     {
         m_CurrentTile?.AddNutrients(m_NutrientsOnDeath);
         m_CurrentTile?.RemoveEntity(this);
+        EntityManager.Instance.RemoveEntity(this);
         Destroy(gameObject);
     }
     #endregion
