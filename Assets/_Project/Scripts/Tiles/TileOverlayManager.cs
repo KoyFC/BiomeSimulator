@@ -27,8 +27,9 @@ public class TileOverlayManager : Singleton<TileOverlayManager>
         {
             UpdateOverlayForTile(tile);
         }
-
         m_OverlayTexture.Apply();
+
+        SetVisualizationMode(m_CurrentMode);
 
         Shader.SetGlobalTexture(OVERLAY_TEXTURE_NAME, m_OverlayTexture);
 
@@ -38,6 +39,8 @@ public class TileOverlayManager : Singleton<TileOverlayManager>
     protected override void OnDestroy()
     {
         TileData.OnTileDataChanged -= UpdateOverlayForTile;
+
+        SetVisualizationMode(VisualizationMode.NORMAL);
     }
 
     private void Update()
