@@ -15,7 +15,8 @@ public class PlayerToolboxManager : Singleton<PlayerToolboxManager>
     private ToolSlot m_CurrentToolSlot;
     private TileData m_SelectedTile = null;
 
-    public int BrushSize { get; private set; } = 1;
+    [field: SerializeField, Min(1)] public int MaxBrushSize { get; private set; } = 11;
+    public int BrushSize { get; set; } = 1;
 
     public static event System.Action<ToolBaseSO[]> OnToolsChanged;
 
@@ -73,7 +74,7 @@ public class PlayerToolboxManager : Singleton<PlayerToolboxManager>
 
         BrushSize += scroll;
         if (BrushSize % 2 == 0) BrushSize += (scroll > 0) ? 1 : -1;
-        BrushSize = Mathf.Clamp(BrushSize, 1, 11);
+        BrushSize = Mathf.Clamp(BrushSize, 1, MaxBrushSize);
     }
 
     private void OnPlayerClicked(Vector3 worldPosition)
