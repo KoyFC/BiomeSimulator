@@ -11,7 +11,7 @@ public abstract class EntityBase : MonoBehaviour
     [Header("References")]
     [SerializeField] private Renderer m_Renderer;
     private MaterialPropertyBlock m_PropertyBlock;
-    private Color m_BaseColor = Color.white;
+    private const string DITHER_ALPHA = "_DitherAlpha";
 
     [Header("Energy")]
     [SerializeField] private float m_InitialEnergy = 100f;
@@ -45,7 +45,6 @@ public abstract class EntityBase : MonoBehaviour
         if (m_Renderer == null) return;
 
         m_PropertyBlock = new MaterialPropertyBlock();
-        m_BaseColor = m_Renderer.sharedMaterial.GetColor("_BaseColor");
     }
 
     protected virtual void OnEnable()
@@ -123,10 +122,7 @@ public abstract class EntityBase : MonoBehaviour
         if (m_Renderer == null || m_PropertyBlock == null) return;
 
         m_Renderer.GetPropertyBlock(m_PropertyBlock);
-        
-        Color color = m_BaseColor;
-        color.a = alpha;
-        m_PropertyBlock.SetColor("_BaseColor", color);
+        m_PropertyBlock.SetFloat(DITHER_ALPHA, alpha);
         m_Renderer.SetPropertyBlock(m_PropertyBlock);
     }
 }
