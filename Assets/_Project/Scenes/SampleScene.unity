@@ -559,8 +559,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerToolboxManager
   m_Tools:
-  - {fileID: 11400000, guid: 9266852dbb714ed19a66063590eaf01b, type: 2}
   - {fileID: 11400000, guid: 3c536ab8c66dede79b4bbfb3898fa3fc, type: 2}
+  - {fileID: 11400000, guid: 9266852dbb714ed19a66063590eaf01b, type: 2}
 --- !u!4 &411331524
 Transform:
   m_ObjectHideFlags: 0

@@ -50,7 +50,6 @@ public class TileOverlayManager : Singleton<TileOverlayManager>
             VisualizationMode nextMode = (VisualizationMode)(((int)m_CurrentMode + 1) % Enum.GetValues(typeof(VisualizationMode)).Length);
             SetVisualizationMode(nextMode);
             m_CurrentMode = nextMode;
-            Debug.Log($"Switched to {m_CurrentMode} visualization mode.");
         }
     }
 
@@ -69,7 +68,10 @@ public class TileOverlayManager : Singleton<TileOverlayManager>
         float nutrientsNormalized = tileData.Nutrients / TileData.MAX_NUTRIENTS;
 
         Color overlayColor = new Color(0f, nutrientsNormalized, humidityNormalized, 1f);
-        m_OverlayTexture.SetPixel(tileData.TileIndex.x, tileData.TileIndex.y, overlayColor);
+        Vector2Int tileQuantity = MapTileManager.Instance.TileQuantity;
+        int flippedX = (tileQuantity.x - 1) - tileData.TileIndex.x;
+        int flippedY = (tileQuantity.y - 1) - tileData.TileIndex.y;
+        m_OverlayTexture.SetPixel(flippedX, flippedY, overlayColor);
         m_IsDirty = true;
     }
 
