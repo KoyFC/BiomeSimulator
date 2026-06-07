@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: 1 Nutrient Tool
   m_EditorClassIdentifier: Assembly-CSharp::NutrientToolSO
   <Name>k__BackingField: Nutrients
-  <Icon>k__BackingField: {fileID: 0}
+  <Icon>k__BackingField: {fileID: 21300000, guid: 99a48d25473718e8e8e6a8ce6956ae2b, type: 3}
   <Description>k__BackingField: 
   m_NutrientAmount: 10

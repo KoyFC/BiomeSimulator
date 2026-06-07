@@ -12,6 +12,7 @@ public class PlayerToolboxManager : Singleton<PlayerToolboxManager>
 
     [SerializeField] private ToolSlot[] m_ToolSlots;
     private int m_CurrentToolIndex = 0;
+    public ToolBaseSO CurrentTool => m_CurrentToolSlot.Tools.Length > 0 ? m_CurrentToolSlot.Tools[m_CurrentToolIndex] : null;
     private ToolSlot m_CurrentToolSlot;
     private TileData m_SelectedTile = null;
 

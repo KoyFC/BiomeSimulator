@@ -36,7 +36,6 @@ public class ToolboxUI : MonoBehaviour
         m_BrushSizeText.text = $"Brush Size: {PlayerToolboxManager.Instance.BrushSize}";
     }
 
-
     private void UpdateToolboxUI(ToolBaseSO[] tools)
     {
         foreach (Transform child in m_Container.transform)

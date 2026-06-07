@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e31f7e3edfbeb64cabcc54894ba4dae8, type: 3}
   m_Name: 2 Nutrient Tool
   m_EditorClassIdentifier: Assembly-CSharp::NutrientToolSO
-  <Name>k__BackingField: Pretty Good Nutrients
-  <Icon>k__BackingField: {fileID: 0}
+  <Name>k__BackingField: Better Nutrients
+  <Icon>k__BackingField: {fileID: 21300000, guid: ccf7e29689cd6f28085e2c2ea4c08e5e, type: 3}
   <Description>k__BackingField: 
   m_NutrientAmount: 40
