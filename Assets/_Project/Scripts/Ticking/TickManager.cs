@@ -39,8 +39,8 @@ public class TickManager : LazySingleton<TickManager>
 
     private void OnGameOver(string message)
     {
-        m_GameOver = true;
         SetTimeScale(0f);
+        m_GameOver = true;
     }
 
     public void SetTimeScale(float newTimeScale)
