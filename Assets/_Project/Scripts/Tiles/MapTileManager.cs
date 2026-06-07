@@ -15,8 +15,8 @@ public class MapTileManager : Singleton<MapTileManager>
     [SerializeField] private bool m_OnlyDrawSelected = true;
     [SerializeField] private Color m_GizmoColor = Color.red;
 
-    private float MapWidth => m_MapSize.x;
-    private float MapHeight => m_MapSize.y;
+    public float MapWidth => m_MapSize.x;
+    public float MapHeight => m_MapSize.y;
     public Vector2Int TileQuantity => m_TileQuantity;
     public Vector2 TileSize => m_TileSize != Vector2.zero ? m_TileSize : CalculateTileSize();
     public IReadOnlyList<TileData> Tiles => m_Tiles.Cast<TileData>().ToList().AsReadOnly();

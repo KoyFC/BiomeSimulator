@@ -59,13 +59,6 @@ public class PlayerToolboxManager : Singleton<PlayerToolboxManager>
         {
             m_CurrentToolIndex = slotIndex;
         }
-
-        int scroll = PlayerInputController.GetMouseScroll();
-        if (scroll != 0)
-        {
-            int toolCount = m_CurrentToolSlot.Tools.Length;
-            m_CurrentToolIndex = (m_CurrentToolIndex + scroll + toolCount) % toolCount;
-        }
     }
 
     private void OnPlayerClicked(Vector3 worldPosition)
