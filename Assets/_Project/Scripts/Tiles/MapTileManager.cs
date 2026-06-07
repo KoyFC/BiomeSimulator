@@ -17,6 +17,7 @@ public class MapTileManager : Singleton<MapTileManager>
 
     private float MapWidth => m_MapSize.x;
     private float MapHeight => m_MapSize.y;
+    public Vector2Int TileQuantity => m_TileQuantity;
     public Vector2 TileSize => m_TileSize != Vector2.zero ? m_TileSize : CalculateTileSize();
 
     #region Unity Methods

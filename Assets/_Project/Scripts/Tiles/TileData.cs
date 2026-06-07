@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -10,6 +11,8 @@ public class TileData
     public const float MAX_HUMIDITY = 100f;
     public float Nutrients { get; private set; } = 0f;
     public const float MAX_NUTRIENTS = 100f;
+
+    public static event Action<TileData> OnTileDataChanged;
 
     private HashSet<EntityBase> m_EntitiesOnTile = new();
     public bool IsOccupied => m_EntitiesOnTile.Count > 0;
@@ -24,11 +27,13 @@ public class TileData
     public void AddHumidity(float amount)
     {
         Humidity = Mathf.Clamp(Humidity + amount, 0f, MAX_HUMIDITY);
+        OnTileDataChanged?.Invoke(this);
     }
 
     public void AddNutrients(float amount)
     {
         Nutrients = Mathf.Clamp(Nutrients + amount, 0f, MAX_NUTRIENTS);
+        OnTileDataChanged?.Invoke(this);
     }
 
     public void AddEntity(EntityBase entity)
