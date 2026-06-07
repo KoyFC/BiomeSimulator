@@ -10,5 +10,14 @@ public class NutrientToolSO : ToolBaseSO
     {
         if (targetTile == null) return;
         targetTile.AddNutrients(m_NutrientAmount);
+
+        if (Radius > 0)
+        {
+            var tiles = MapTileManager.Instance.GetTilesInRadius(targetTile, Radius);
+            foreach (var tile in tiles)
+            {
+                tile.AddNutrients(m_NutrientAmount);
+            }
+        }
     }
 }

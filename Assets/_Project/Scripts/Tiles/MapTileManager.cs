@@ -157,6 +157,32 @@ public class MapTileManager : Singleton<MapTileManager>
         return surroundingTiles;
     }
 
+    public TileData[] GetTilesInRadius(TileData centerTile, int radius)
+    {
+        if (centerTile == null) return null;
+
+        Vector2Int centerIndex = centerTile.TileIndex;
+        List<TileData> tilesInRadius = new List<TileData>();
+
+        for (int x = -radius; x <= radius; x++)
+        {
+            for (int y = -radius; y <= radius; y++)
+            {
+                if (x == 0 && y == 0) continue;
+
+                int tileX = centerIndex.x + x;
+                int tileY = centerIndex.y + y;
+
+                if (tileX.IsWithinRange(0, m_TileQuantity.x) && tileY.IsWithinRange(0, m_TileQuantity.y))
+                {
+                    tilesInRadius.Add(m_Tiles[tileX, tileY]);
+                }
+            }
+        }
+
+        return tilesInRadius.ToArray();
+    }
+
     public TileData GetRandomEmptyTile()
     {
         if (m_Tiles == null) return null;
