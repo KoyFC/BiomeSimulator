@@ -558,9 +558,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2190d096f6644d0cba318c6a766624ad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerToolboxManager
-  m_Tools:
-  - {fileID: 11400000, guid: 3c536ab8c66dede79b4bbfb3898fa3fc, type: 2}
-  - {fileID: 11400000, guid: 9266852dbb714ed19a66063590eaf01b, type: 2}
+  m_ToolSlots:
+  - <VisualizationMode>k__BackingField: 1
+    <Tools>k__BackingField:
+    - {fileID: 11400000, guid: 3c536ab8c66dede79b4bbfb3898fa3fc, type: 2}
+  - <VisualizationMode>k__BackingField: 2
+    <Tools>k__BackingField:
+    - {fileID: 11400000, guid: 9266852dbb714ed19a66063590eaf01b, type: 2}
 --- !u!4 &411331524
 Transform:
   m_ObjectHideFlags: 0

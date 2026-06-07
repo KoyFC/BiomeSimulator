@@ -3,13 +3,30 @@ using UnityEngine.InputSystem;
 
 public class PlayerToolboxManager : Singleton<PlayerToolboxManager>
 {
-    [SerializeField] private ToolBaseSO[] m_Tools;
+    [System.Serializable]
+    private struct ToolSlot
+    {
+        [field: SerializeField] public VisualizationMode VisualizationMode { get; private set; }
+        [field: SerializeField] public ToolBaseSO[] Tools { get; private set; }
+    }
+
+    [SerializeField] private ToolSlot[] m_ToolSlots;
     private int m_CurrentToolIndex = 0;
+    private ToolSlot m_CurrentToolSlot;
     private TileData m_SelectedTile = null;
 
-    private void Start()
+    protected override void Awake()
     {
-        if (m_Tools.Length > 0) m_CurrentToolIndex = 0;
+        base.Awake();
+        if (m_ToolSlots.Length > 0) m_CurrentToolSlot = m_ToolSlots[0];
+
+        TileOverlayManager.OnVisualizationModeChanged += OnVisualizationModeChanged;
+    }
+
+    protected override void OnDestroy()
+    {
+        base.OnDestroy();
+        TileOverlayManager.OnVisualizationModeChanged -= OnVisualizationModeChanged;
     }
 
     private void Update()
@@ -35,7 +52,7 @@ public class PlayerToolboxManager : Singleton<PlayerToolboxManager>
 
     private void HandleToolSwitchInput()
     {
-        int slotIndex = PlayerInputController.GetSlotKeyPressed(m_Tools.Length);
+        int slotIndex = PlayerInputController.GetSlotKeyPressed(m_CurrentToolSlot.Tools.Length);
         if (slotIndex >= 0)
         {
             m_CurrentToolIndex = slotIndex;
@@ -44,7 +61,7 @@ public class PlayerToolboxManager : Singleton<PlayerToolboxManager>
         int scroll = PlayerInputController.GetMouseScroll();
         if (scroll != 0)
         {
-            int toolCount = m_Tools.Length;
+            int toolCount = m_CurrentToolSlot.Tools.Length;
             m_CurrentToolIndex = (m_CurrentToolIndex + scroll + toolCount) % toolCount;
         }
     }
@@ -52,8 +69,21 @@ public class PlayerToolboxManager : Singleton<PlayerToolboxManager>
     private void OnPlayerClicked(Vector3 worldPosition)
     {
         TileData tile = MapTileManager.Instance.GetTileForWorldPosition(worldPosition);
-        if (tile == null || m_Tools[m_CurrentToolIndex] == null) return;
+        if (tile == null || m_CurrentToolSlot.Tools[m_CurrentToolIndex] == null) return;
 
-        m_Tools[m_CurrentToolIndex].UseTool(tile);
+        m_CurrentToolSlot.Tools[m_CurrentToolIndex].UseTool(tile);
+    }
+
+    private void OnVisualizationModeChanged(VisualizationMode mode)
+    {
+        foreach (ToolSlot slot in m_ToolSlots)
+        {
+            if (slot.VisualizationMode == mode)
+            {
+                m_CurrentToolSlot = slot;
+                m_CurrentToolIndex = 0;
+                return;
+            }
+        }
     }
 }

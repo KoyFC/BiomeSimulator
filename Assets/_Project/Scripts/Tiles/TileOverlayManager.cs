@@ -2,6 +2,8 @@ using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
+public enum VisualizationMode { NORMAL, NUTRIENTS, HUMIDITY }
+
 public class TileOverlayManager : Singleton<TileOverlayManager>
 {
     [SerializeField] private Material m_OverlayMaterial;
@@ -9,12 +11,13 @@ public class TileOverlayManager : Singleton<TileOverlayManager>
     private Texture2D m_OverlayTexture = null;
     private bool m_IsDirty = false;
 
-    public enum VisualizationMode { NORMAL, NUTRIENTS, HUMIDITY }
     private VisualizationMode m_CurrentMode = VisualizationMode.NORMAL;
     private const string OVERLAY_TEXTURE_NAME = "_OverlayTexture";
     private const string OVERLAY_VISUALIZATION_NORMAL = "_OVERLAYMODE_NORMAL";
     private const string OVERLAY_VISUALIZATION_NUTRIENTS = "_OVERLAYMODE_NUTRIENTS";
     private const string OVERLAY_VISUALIZATION_HUMIDITY = "_OVERLAYMODE_HUMIDITY";
+
+    public static event Action<VisualizationMode> OnVisualizationModeChanged;
 
     private void Start()
     {
@@ -93,5 +96,7 @@ public class TileOverlayManager : Singleton<TileOverlayManager>
                 m_OverlayMaterial.EnableKeyword(OVERLAY_VISUALIZATION_HUMIDITY);
                 break;
         }
+
+        OnVisualizationModeChanged?.Invoke(mode);
     }
 }
