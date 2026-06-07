@@ -9,6 +9,7 @@ public class TickManager : LazySingleton<TickManager>
     [SerializeField, Min(0.01f)] private float m_TickTime = 0.5f;
     [SerializeField, Min(0f)] private float m_TimeScale = 1f;
     private float m_Timer = 0f;
+    public float TimeScale => m_TimeScale;
 
     #region Unity Methods
     private void Start()
