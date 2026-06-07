@@ -10,8 +10,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9c72ea7a8bfa6a1cd9d3370feb5c295f, type: 3}
-  m_Name: Carnivore
+  m_Name: Carnivore Tiger
   m_EditorClassIdentifier: Assembly-CSharp::EntityDataSO
   <Name>k__BackingField: Carnivore
   <Sprite>k__BackingField: {fileID: 0}
-  <Prefab>k__BackingField: {fileID: 8561239017564198870, guid: 7ad71a0fe6b99c5a6bba8818543ca81d, type: 3}
+  <Prefab>k__BackingField: {fileID: 2292394990329512510, guid: 178491c17dac52fc38c10a6aa783d1ff, type: 3}
