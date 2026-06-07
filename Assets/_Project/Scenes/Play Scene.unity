@@ -2761,7 +2761,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1619752023}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 11400000, guid: 490dec3d0d9264e828eb90d5a8cfdcf7, type: 2}
+        m_TargetAssemblyTypeName: SceneTransitionerSO, Assembly-CSharp
+        m_MethodName: ReloadCurrentScene
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1619752023
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3576,7 +3588,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1949838942}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 11400000, guid: 490dec3d0d9264e828eb90d5a8cfdcf7, type: 2}
+        m_TargetAssemblyTypeName: SceneTransitionerSO, Assembly-CSharp
+        m_MethodName: LoadMainMenuScene
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1949838942
 MonoBehaviour:
   m_ObjectHideFlags: 0
