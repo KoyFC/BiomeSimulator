@@ -17,7 +17,10 @@ public class EnergyDisplay : MonoBehaviour
         if (m_Entity == null || m_FillImageTransform == null) return;
 
         bool visible = MapTileManager.Instance.IsTileHighlighted(m_Entity.CurrentTile);
-        if (m_Container != null) m_Container.SetActive(visible);
+        if (m_Container != null)
+        {
+            if (m_Container.activeSelf != visible) m_Container.SetActive(visible);
+        }
 
         if (visible)
         {

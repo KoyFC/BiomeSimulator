@@ -980,7 +980,7 @@ MonoBehaviour:
   - <VisualizationMode>k__BackingField: 2
     <Tools>k__BackingField:
     - {fileID: 11400000, guid: 9266852dbb714ed19a66063590eaf01b, type: 2}
-  <MaxBrushSize>k__BackingField: 11
+  <MaxBrushSize>k__BackingField: 25
 --- !u!4 &411331524
 Transform:
   m_ObjectHideFlags: 0
