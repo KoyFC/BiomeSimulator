@@ -4,19 +4,27 @@ public class PlantBase : EntityBase, IConsumable
 {
     [Header("Plant")]
     [SerializeField, Min(0f)] private float m_NutrientAbsorptionRate = 5f; // Per tick
+    [SerializeField, Min(0f)] private float m_WaterAbsorptionRate = 3f;
 
     protected override void OnTick()
     {
         base.OnTick();
+        if (IsDead) return;
         if (m_CurrentTile == null) return;
 
         float energySpace = m_MaxEnergy - m_Energy;
         if (energySpace <= 0f) return;
 
+        // The plant tries to absorb water to determine how much it actually will grow
+        float waterToAbsorb = Mathf.Min(m_WaterAbsorptionRate, m_CurrentTile.Humidity);
+        m_CurrentTile.AddHumidity(-waterToAbsorb);
+        float growthMultiplier = (m_WaterAbsorptionRate > 0f) ? Mathf.Clamp01(waterToAbsorb / m_WaterAbsorptionRate) : 1f;
+        growthMultiplier = growthMultiplier.Remap(0f, 1f, 0.5f, 1.5f); // Grow better with more water, but still grow a bit without it
+
         // Try to absorb as many nutrients as possible without wasting the tile's nutrients
         float nutrientsToAbsorb = Mathf.Min(m_NutrientAbsorptionRate, Mathf.Min(m_CurrentTile.Nutrients, energySpace));
         m_CurrentTile.AddNutrients(-nutrientsToAbsorb);
-        AddEnergy(nutrientsToAbsorb * m_DigestionEfficiency);
+        AddEnergy(nutrientsToAbsorb * m_DigestionEfficiency * growthMultiplier);
 
         if (m_Energy >= m_MaxEnergy * m_ReproductionThreshold) TryReproduce();
     }
