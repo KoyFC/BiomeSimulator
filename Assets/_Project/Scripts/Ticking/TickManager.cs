@@ -11,10 +11,19 @@ public class TickManager : LazySingleton<TickManager>
     private float m_Timer = 0f;
     public float TimeScale => m_TimeScale;
 
+    private bool m_GameOver = false;
+
     #region Unity Methods
     private void Start()
     {
         m_Timer = m_TickTime;
+
+        EntityManager.OnGameOver += OnGameOver;
+    }
+
+    protected override void OnDestroy()
+    {
+        EntityManager.OnGameOver -= OnGameOver;
     }
 
     private void Update()
@@ -28,8 +37,15 @@ public class TickManager : LazySingleton<TickManager>
     }
     #endregion
 
+    private void OnGameOver(string message)
+    {
+        m_GameOver = true;
+        SetTimeScale(0f);
+    }
+
     public void SetTimeScale(float newTimeScale)
     {
+        if (m_GameOver) return;
         m_TimeScale = Mathf.Max(0f, newTimeScale);
     }
 }
