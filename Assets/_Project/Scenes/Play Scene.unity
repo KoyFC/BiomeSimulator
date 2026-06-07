@@ -308,7 +308,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0.392}
+  m_Color: {r: 1, g: 1, b: 1, a: 0.7058824}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -365,7 +365,7 @@ MonoBehaviour:
     m_Top: 5
     m_Bottom: 5
   m_ChildAlignment: 4
-  m_Spacing: 0
+  m_Spacing: 4
   m_ChildForceExpandWidth: 1
   m_ChildForceExpandHeight: 1
   m_ChildControlWidth: 0
@@ -671,8 +671,8 @@ Camera:
   m_GameObject: {fileID: 330585543}
   m_Enabled: 1
   serializedVersion: 2
-  m_ClearFlags: 1
-  m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
+  m_ClearFlags: 2
+  m_BackGroundColor: {r: 0, g: 0, b: 0, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
@@ -1324,9 +1324,12 @@ MonoBehaviour:
   - <VisualizationMode>k__BackingField: 1
     <Tools>k__BackingField:
     - {fileID: 11400000, guid: 3c536ab8c66dede79b4bbfb3898fa3fc, type: 2}
+    - {fileID: 11400000, guid: e04de023352e44360972e158a5a3f5d4, type: 2}
   - <VisualizationMode>k__BackingField: 2
     <Tools>k__BackingField:
     - {fileID: 11400000, guid: 9266852dbb714ed19a66063590eaf01b, type: 2}
+    - {fileID: 11400000, guid: 168ea57a94b5c5ab7981d97614e9bfca, type: 2}
+    - {fileID: 11400000, guid: 4b3e4144eb3323358a8bbcfb553ee44e, type: 2}
   <MaxBrushSize>k__BackingField: 25
 --- !u!4 &411331524
 Transform:

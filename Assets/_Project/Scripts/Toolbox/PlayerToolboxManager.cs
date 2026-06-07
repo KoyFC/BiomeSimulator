@@ -85,6 +85,18 @@ public class PlayerToolboxManager : Singleton<PlayerToolboxManager>
         m_CurrentToolSlot.Tools[m_CurrentToolIndex].UseTool(tile);
     }
 
+    public void TrySelectTool(ToolBaseSO tool)
+    {
+        for (int i = 0; i < m_CurrentToolSlot.Tools.Length; i++)
+        {
+            if (m_CurrentToolSlot.Tools[i] == tool)
+            {
+                m_CurrentToolIndex = i;
+                return;
+            }
+        }
+    }
+
     private void OnVisualizationModeChanged(VisualizationMode mode)
     {
         foreach (ToolSlot slot in m_ToolSlots)
