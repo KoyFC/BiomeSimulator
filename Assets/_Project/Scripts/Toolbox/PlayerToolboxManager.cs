@@ -15,6 +15,8 @@ public class PlayerToolboxManager : Singleton<PlayerToolboxManager>
     private ToolSlot m_CurrentToolSlot;
     private TileData m_SelectedTile = null;
 
+    public static event System.Action<ToolBaseSO[]> OnToolsChanged;
+
     protected override void Awake()
     {
         base.Awake();
@@ -69,7 +71,7 @@ public class PlayerToolboxManager : Singleton<PlayerToolboxManager>
     private void OnPlayerClicked(Vector3 worldPosition)
     {
         TileData tile = MapTileManager.Instance.GetTileForWorldPosition(worldPosition);
-        if (tile == null || m_CurrentToolSlot.Tools[m_CurrentToolIndex] == null) return;
+        if (tile == null || m_CurrentToolSlot.Tools.Length == 0 || m_CurrentToolSlot.Tools[m_CurrentToolIndex] == null) return;
 
         m_CurrentToolSlot.Tools[m_CurrentToolIndex].UseTool(tile);
     }
@@ -82,6 +84,7 @@ public class PlayerToolboxManager : Singleton<PlayerToolboxManager>
             {
                 m_CurrentToolSlot = slot;
                 m_CurrentToolIndex = 0;
+                OnToolsChanged?.Invoke(m_CurrentToolSlot.Tools);
                 return;
             }
         }
