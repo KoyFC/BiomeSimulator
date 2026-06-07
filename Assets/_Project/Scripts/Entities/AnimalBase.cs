@@ -57,6 +57,8 @@ public abstract class AnimalBase : EntityBase
     protected override void OnTick()
     {
         base.OnTick();
+        if (IsDead) return;
+
         switch (m_CurrentState)
         {
             case AnimalState.WANDER:

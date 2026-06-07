@@ -5,6 +5,9 @@ public abstract class EntityBase : MonoBehaviour
     protected TileData m_CurrentTile = null;
     public TileData CurrentTile => m_CurrentTile;
 
+    private bool m_IsDead = false;
+    public bool IsDead => m_IsDead;
+
     [Header("Energy")]
     [SerializeField] private float m_InitialEnergy = 100f;
     [SerializeField] protected float m_MaxEnergy = 100f;
@@ -56,6 +59,8 @@ public abstract class EntityBase : MonoBehaviour
 
     protected void ConsumeEnergy(float amount)
     {
+        if (m_IsDead) return;
+
         m_Energy = m_Energy - amount;
         if (m_Energy <= 0f)
         {
@@ -66,6 +71,9 @@ public abstract class EntityBase : MonoBehaviour
 
     protected virtual void Die()
     {
+        if (m_IsDead) return;
+        m_IsDead = true;
+
         m_CurrentTile?.AddNutrients(m_NutrientsOnDeath);
         TileData[] surroundingTiles = MapTileManager.Instance.GetSurroundingTiles(m_CurrentTile);
         foreach (TileData tile in surroundingTiles)
@@ -83,6 +91,7 @@ public abstract class EntityBase : MonoBehaviour
     #region Ticking
     protected virtual void OnTick()
     {
+        if (m_IsDead) return;
         ConsumeEnergy(m_EnergyConsumptionPerSecond * TickManager.TickTime);
     }
     #endregion

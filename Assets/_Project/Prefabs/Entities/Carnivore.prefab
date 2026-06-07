@@ -170,7 +170,7 @@ MonoBehaviour:
   m_TimeToMoveBetweenTiles: 0.5
   m_HungerThreshold: 0.6
   m_StopEatingThreshold: 0.8
-  m_EnergyBiteSize: 30
+  m_EnergyBiteSize: 50
 --- !u!1001 &4393948749140068020
 PrefabInstance:
   m_ObjectHideFlags: 0

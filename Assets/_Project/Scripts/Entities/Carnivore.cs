@@ -45,7 +45,11 @@ public class Carnivore : AnimalBase
         if (m_CurrentTile == null) return;
 
         float energySpace = m_MaxEnergy - m_Energy;
-        if (energySpace <= 0f) return;
+        if (energySpace <= 0f) 
+        {
+            m_CurrentState = AnimalState.WANDER;
+            return;
+        }
 
         IConsumable consumable = m_CurrentTile.GetConsumable(ConsumableType.MEAT);
         if (consumable == null)
@@ -58,7 +62,7 @@ public class Carnivore : AnimalBase
         float energyConsumed = consumable.Consume(energyToEat);
         AddEnergy(energyConsumed * m_DigestionEfficiency);
 
-        // The prey may have died during Consume(), so check before accessing it again
+        // The prey may have died during Consume()
         bool preyDied = consumable is EntityBase entity && entity.IsDead;
 
         bool isSatisfied = m_Energy >= m_MaxEnergy * m_StopEatingThreshold;

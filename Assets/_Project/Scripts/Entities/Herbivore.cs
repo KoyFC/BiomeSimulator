@@ -45,7 +45,11 @@ public class Herbivore : AnimalBase, IConsumable
         if (m_CurrentTile == null) return;
 
         float energySpace = m_MaxEnergy - m_Energy;
-        if (energySpace <= 0f) return;
+        if (energySpace <= 0f)
+        {
+            m_CurrentState = AnimalState.WANDER;
+            return;
+        }
 
         IConsumable consumable = m_CurrentTile.GetConsumable(ConsumableType.PLANT);
         if (consumable == null)

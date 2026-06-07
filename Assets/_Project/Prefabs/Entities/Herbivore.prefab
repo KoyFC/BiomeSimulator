@@ -165,7 +165,7 @@ MonoBehaviour:
   m_NutrientsOnDeath: 50
   m_ReproductionThreshold: 0.9
   m_ReproductionEnergyCost: 0.5
-  m_TimeToMoveBetweenTiles: 0.5
+  m_TimeToMoveBetweenTiles: 0.75
   m_HungerThreshold: 1
   m_StopEatingThreshold: 0.8
   m_EnergyBiteSize: 10
