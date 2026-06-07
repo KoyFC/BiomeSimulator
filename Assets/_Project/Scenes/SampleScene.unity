@@ -954,6 +954,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4eb0b561ea3ce38781431051c3757a1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TileOverlayManager
+  m_OverlayMaterial: {fileID: 2100000, guid: bd3d2fb23ec3de1c59f2e55b29fca8e4, type: 2}
 --- !u!4 &1155763175
 Transform:
   m_ObjectHideFlags: 0
@@ -999,7 +1000,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TickManager
   m_TickTime: 1
-  m_TimeScale: 10
+  m_TimeScale: 1
 --- !u!4 &1847162279
 Transform:
   m_ObjectHideFlags: 0
