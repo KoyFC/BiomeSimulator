@@ -15,6 +15,8 @@ public class PlayerToolboxManager : Singleton<PlayerToolboxManager>
     private ToolSlot m_CurrentToolSlot;
     private TileData m_SelectedTile = null;
 
+    public int BrushSize { get; private set; } = 1;
+
     public static event System.Action<ToolBaseSO[]> OnToolsChanged;
 
     protected override void Awake()
@@ -34,6 +36,7 @@ public class PlayerToolboxManager : Singleton<PlayerToolboxManager>
     private void Update()
     {
         HandleToolSwitchInput();
+        HandleMouseScrollInput();
 
         if (Mouse.current.leftButton.isPressed)
         {
@@ -59,6 +62,18 @@ public class PlayerToolboxManager : Singleton<PlayerToolboxManager>
         {
             m_CurrentToolIndex = slotIndex;
         }
+    }
+
+    private void HandleMouseScrollInput()
+    {
+        if (!Keyboard.current.leftShiftKey.isPressed) return;
+
+        int scroll = -PlayerInputController.GetMouseScroll();
+        if (scroll == 0) return;
+
+        BrushSize += scroll;
+        if (BrushSize % 2 == 0) BrushSize += (scroll > 0) ? 1 : -1;
+        BrushSize = Mathf.Clamp(BrushSize, 1, 11);
     }
 
     private void OnPlayerClicked(Vector3 worldPosition)

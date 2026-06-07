@@ -14,6 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::WaterToolSO
   <Name>k__BackingField: Water
   <Icon>k__BackingField: {fileID: 0}
-  <Size>k__BackingField: 1
   <Description>k__BackingField: 
   m_WaterAmount: 10

@@ -11,9 +11,10 @@ public class WaterToolSO : ToolBaseSO
         if (targetTile == null) return;
         targetTile.AddHumidity(m_WaterAmount);
 
-        if (Radius > 0)
+        int radius = PlayerToolboxManager.Instance.BrushSize / 2;
+        if (radius > 0)
         {
-            var tiles = MapTileManager.Instance.GetTilesInRadius(targetTile, Radius);
+            var tiles = MapTileManager.Instance.GetTilesInRadius(targetTile, radius);
             foreach (var tile in tiles)
             {
                 tile.AddHumidity(m_WaterAmount);

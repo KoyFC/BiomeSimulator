@@ -1,5 +1,6 @@
 using UnityEngine;
 using Unity.Cinemachine;
+using UnityEngine.InputSystem;
 
 public class CameraController : MonoBehaviour
 {
@@ -87,6 +88,7 @@ public class CameraController : MonoBehaviour
 
     private void HandleZoom()
     {
+        if (Keyboard.current.leftShiftKey.isPressed) return;
         float scrollInput = PlayerInputController.GetMouseScroll();
         if (Mathf.Approximately(scrollInput, 0f)) return;
 
