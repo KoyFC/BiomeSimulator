@@ -64,7 +64,7 @@ public class MapTileManager : Singleton<MapTileManager>
 
         m_HighlightedTiles.Add(hoveredTile);
 
-        TileData[] surroundingTiles = GetSurroundingTiles(hoveredTile);
+        TileData[] surroundingTiles = GetTilesInRadius(hoveredTile, 2);
         if (surroundingTiles != null)
         {
             for (int i = 0; i < surroundingTiles.Length; i++)
