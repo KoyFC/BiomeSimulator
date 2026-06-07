@@ -67,6 +67,13 @@ public abstract class EntityBase : MonoBehaviour
     protected virtual void Die()
     {
         m_CurrentTile?.AddNutrients(m_NutrientsOnDeath);
+        TileData[] surroundingTiles = MapTileManager.Instance.GetSurroundingTiles(m_CurrentTile);
+        foreach (TileData tile in surroundingTiles)
+        {
+            if (tile == null) continue;
+            tile.AddNutrients(m_NutrientsOnDeath);
+        }
+
         m_CurrentTile?.RemoveEntity(this);
         EntityManager.Instance.RemoveEntity(this);
         Destroy(gameObject);
