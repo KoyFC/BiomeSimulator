@@ -8,6 +8,11 @@ public abstract class EntityBase : MonoBehaviour
     private bool m_IsDead = false;
     public bool IsDead => m_IsDead;
 
+    [Header("References")]
+    [SerializeField] private Renderer m_Renderer;
+    private MaterialPropertyBlock m_PropertyBlock;
+    private Color m_BaseColor = Color.white;
+
     [Header("Energy")]
     [SerializeField] private float m_InitialEnergy = 100f;
     [SerializeField] protected float m_MaxEnergy = 100f;
@@ -35,6 +40,14 @@ public abstract class EntityBase : MonoBehaviour
     }
 
     #region Unity Methods
+    protected virtual void Awake()
+    {
+        if (m_Renderer == null) return;
+
+        m_PropertyBlock = new MaterialPropertyBlock();
+        m_BaseColor = m_Renderer.sharedMaterial.GetColor("_BaseColor");
+    }
+
     protected virtual void OnEnable()
     {
         TickManager.OnTick += OnTick;
@@ -103,5 +116,17 @@ public abstract class EntityBase : MonoBehaviour
         m_CurrentTile?.RemoveEntity(this);
         m_CurrentTile = tile;
         m_CurrentTile.AddEntity(this);
+    }
+
+    public void SetAlpha(float alpha)
+    {
+        if (m_Renderer == null || m_PropertyBlock == null) return;
+
+        m_Renderer.GetPropertyBlock(m_PropertyBlock);
+        
+        Color color = m_BaseColor;
+        color.a = alpha;
+        m_PropertyBlock.SetColor("_BaseColor", color);
+        m_Renderer.SetPropertyBlock(m_PropertyBlock);
     }
 }

@@ -16,6 +16,7 @@ public class EntityManager : Singleton<EntityManager>
     [SerializeField] private bool m_SpawnOnStart;
     [SerializeField] private EntitySpawnData[] m_EntitiesToSpawn;
     private List<EntityBase> m_SpawnedEntities = new List<EntityBase>();
+    private float m_CurrentAlpha = 1f;
 
     private void Start()
     {
@@ -65,9 +66,19 @@ public class EntityManager : Singleton<EntityManager>
         }
     }
 
+    public void SetAllEntitiesAlpha(float alpha)
+    {
+        m_CurrentAlpha = alpha;
+        foreach (EntityBase entity in m_SpawnedEntities)
+        {
+            entity.SetAlpha(alpha);
+        }
+    }
+
     public void AddEntity(EntityBase entity)
     {
         m_SpawnedEntities.Add(entity);
+        entity.SetAlpha(m_CurrentAlpha);
     }
 
     public void RemoveEntity(EntityBase entity)

@@ -158,6 +158,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 86beae28e89e9e4dd9b52ae173e5ab57, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Herbivore
+  m_Renderer: {fileID: 3267220351859573360}
   m_InitialEnergy: 60
   m_MaxEnergy: 100
   m_EnergyConsumptionPerSecond: 1

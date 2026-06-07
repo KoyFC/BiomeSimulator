@@ -7,6 +7,7 @@ public enum VisualizationMode { NORMAL, NUTRIENTS, HUMIDITY }
 public class TileOverlayManager : Singleton<TileOverlayManager>
 {
     [SerializeField] private Material m_OverlayMaterial;
+    [SerializeField, Range(0f, 1f)] private float m_EntityAlphaInOverlay = 0.5f;
 
     private Texture2D m_OverlayTexture = null;
     private bool m_IsDirty = false;
@@ -88,12 +89,15 @@ public class TileOverlayManager : Singleton<TileOverlayManager>
         {
             case VisualizationMode.NORMAL:
                 m_OverlayMaterial.EnableKeyword(OVERLAY_VISUALIZATION_NORMAL);
+                EntityManager.Instance.SetAllEntitiesAlpha(1f);
                 break;
             case VisualizationMode.NUTRIENTS:
                 m_OverlayMaterial.EnableKeyword(OVERLAY_VISUALIZATION_NUTRIENTS);
+                EntityManager.Instance.SetAllEntitiesAlpha(m_EntityAlphaInOverlay);
                 break;
             case VisualizationMode.HUMIDITY:
                 m_OverlayMaterial.EnableKeyword(OVERLAY_VISUALIZATION_HUMIDITY);
+                EntityManager.Instance.SetAllEntitiesAlpha(m_EntityAlphaInOverlay);
                 break;
         }
 

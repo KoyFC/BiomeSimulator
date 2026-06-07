@@ -158,6 +158,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 20106e65465b77331b89fe9857cefe19, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlantBase
+  m_Renderer: {fileID: 6487515648131376018}
   m_InitialEnergy: 70
   m_MaxEnergy: 100
   m_EnergyConsumptionPerSecond: 1
@@ -166,6 +167,7 @@ MonoBehaviour:
   m_ReproductionThreshold: 0.9
   m_ReproductionEnergyCost: 0.5
   m_NutrientAbsorptionRate: 5
+  m_WaterAbsorptionRate: 3
 --- !u!1001 &3051833218990154864
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -144,8 +144,8 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 2252987640968923774}
   - {fileID: 469922579459416270}
+  - {fileID: 2252987640968923774}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &8561239017564198870
@@ -160,6 +160,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25610e74b144090dab5df2b2f49fc0fc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Carnivore
+  m_Renderer: {fileID: 6417056026794342090}
   m_InitialEnergy: 70
   m_MaxEnergy: 100
   m_EnergyConsumptionPerSecond: 1
