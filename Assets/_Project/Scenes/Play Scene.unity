@@ -1503,11 +1503,11 @@ MonoBehaviour:
   - <EntityData>k__BackingField: {fileID: 11400000, guid: 56b01eaf2a42356958e601ae451f1829, type: 2}
     <Amount>k__BackingField: 50
     <SpawnCluster>k__BackingField: 1
-    <PrewarmCount>k__BackingField: 100
+    <PrewarmCount>k__BackingField: 300
   - <EntityData>k__BackingField: {fileID: 11400000, guid: ff2dc837fe172905b97fd0de45ea4842, type: 2}
     <Amount>k__BackingField: 10
     <SpawnCluster>k__BackingField: 1
-    <PrewarmCount>k__BackingField: 100
+    <PrewarmCount>k__BackingField: 200
   - <EntityData>k__BackingField: {fileID: 11400000, guid: 6dde04acad6f3c28c92090d22e5e95f1, type: 2}
     <Amount>k__BackingField: 8
     <SpawnCluster>k__BackingField: 1

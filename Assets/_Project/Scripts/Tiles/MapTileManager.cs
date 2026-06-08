@@ -197,10 +197,19 @@ public class MapTileManager : Singleton<MapTileManager>
         if (centerTile == null) return null;
 
         TileData[] surroundingTiles = GetSurroundingTiles(centerTile);
-        List<TileData> emptyNeighbors = surroundingTiles.Where(tile => tile != null && !tile.IsOccupied).ToList();
+        int validCount = 0;
+        for (int i = 0; i < surroundingTiles.Length; i++)
+        {
+            TileData tile = surroundingTiles[i];
+            if (tile != null && !tile.IsOccupied)
+            {
+                surroundingTiles[validCount] = tile;
+                validCount++;
+            }
+        }
 
-        if (emptyNeighbors.Count == 0) return null;
-        return emptyNeighbors[Random.Range(0, emptyNeighbors.Count)];
+        if (validCount == 0) return null;
+        return surroundingTiles[Random.Range(0, validCount)];
     }
 
     public TileData GetRandomNeighborWithout<T>(TileData centerTile) where T : EntityBase
@@ -208,10 +217,19 @@ public class MapTileManager : Singleton<MapTileManager>
         if (centerTile == null) return null;
 
         TileData[] surroundingTiles = GetSurroundingTiles(centerTile);
-        List<TileData> validNeighbors = surroundingTiles.Where(tile => tile != null && !tile.HasEntityOfType<T>()).ToList();
+        int validCount = 0;
+        for (int i = 0; i < surroundingTiles.Length; i++)
+        {
+            TileData tile = surroundingTiles[i];
+            if (tile != null && !tile.HasEntityOfType<T>())
+            {
+                surroundingTiles[validCount] = tile;
+                validCount++;
+            }
+        }
 
-        if (validNeighbors.Count == 0) return null;
-        return validNeighbors[Random.Range(0, validNeighbors.Count)];
+        if (validCount == 0) return null;
+        return surroundingTiles[Random.Range(0, validCount)];
     }
 
     public TileData FindNeighborWithMate<T>(TileData centerTile, T self) where T : EntityBase
@@ -219,10 +237,19 @@ public class MapTileManager : Singleton<MapTileManager>
         if (centerTile == null) return null;
 
         TileData[] surroundingTiles = GetSurroundingTiles(centerTile);
-        List<TileData> validNeighbors = surroundingTiles.Where(tile => tile != null && tile.FindMateOfType(self) != null).ToList();
+        int validCount = 0;
+        for (int i = 0; i < surroundingTiles.Length; i++)
+        {
+            TileData tile = surroundingTiles[i];
+            if (tile != null && tile.FindMateOfType(self) != null)
+            {
+                surroundingTiles[validCount] = tile;
+                validCount++;
+            }
+        }
 
-        if (validNeighbors.Count == 0) return null;
-        return validNeighbors[Random.Range(0, validNeighbors.Count)];
+        if (validCount == 0) return null;
+        return surroundingTiles[Random.Range(0, validCount)];
     }
     #endregion
 
