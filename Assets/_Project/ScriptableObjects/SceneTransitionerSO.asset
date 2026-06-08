@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7b9b6857b46d1c6bfa004c2de404b01c, type: 3}
   m_Name: SceneTransitionerSO
   m_EditorClassIdentifier: Assembly-CSharp::SceneTransitionerSO
-  m_MainMenuSceneName: 
+  m_MainMenuSceneName: Main Menu
   m_PlaySceneName: Play Scene

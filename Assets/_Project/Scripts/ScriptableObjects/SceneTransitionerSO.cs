@@ -26,4 +26,13 @@ public class SceneTransitionerSO : ScriptableObject
     {
         LoadScene(m_PlaySceneName);
     }
+
+    public void QuitGame()
+    {
+        Application.Quit();
+
+#if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+#endif
+    }
 }
