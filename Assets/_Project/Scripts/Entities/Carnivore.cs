@@ -19,7 +19,7 @@ public class Carnivore : AnimalBase
         float highestEnergy = 0f;
         foreach (TileData tile in surroundingTiles)
         {
-            if (tile == null) continue;
+            if (tile == null || !tile.IsWalkable) continue;
 
             IConsumable tileConsumable = tile.GetConsumable(ConsumableType.MEAT);
             if (tileConsumable != null && tileConsumable.AvailableEnergy > highestEnergy)

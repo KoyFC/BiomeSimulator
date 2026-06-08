@@ -187,7 +187,7 @@ public class MapTileManager : Singleton<MapTileManager>
     {
         if (m_Tiles == null) return null;
 
-        List<TileData> emptyTiles = m_Tiles.Cast<TileData>().Where(tile => tile != null && !tile.IsOccupied).ToList();
+        List<TileData> emptyTiles = m_Tiles.Cast<TileData>().Where(tile => tile != null && tile.IsWalkable && !tile.IsOccupied).ToList();
         if (emptyTiles.Count == 0) return null;
         return emptyTiles[Random.Range(0, emptyTiles.Count)];
     }
@@ -201,7 +201,7 @@ public class MapTileManager : Singleton<MapTileManager>
         for (int i = 0; i < surroundingTiles.Length; i++)
         {
             TileData tile = surroundingTiles[i];
-            if (tile != null && !tile.IsOccupied)
+            if (tile != null && tile.IsWalkable && !tile.IsOccupied)
             {
                 surroundingTiles[validCount] = tile;
                 validCount++;
@@ -221,7 +221,7 @@ public class MapTileManager : Singleton<MapTileManager>
         for (int i = 0; i < surroundingTiles.Length; i++)
         {
             TileData tile = surroundingTiles[i];
-            if (tile != null && !tile.HasEntityOfType<T>())
+            if (tile != null && tile.IsWalkable && !tile.HasEntityOfType<T>())
             {
                 surroundingTiles[validCount] = tile;
                 validCount++;

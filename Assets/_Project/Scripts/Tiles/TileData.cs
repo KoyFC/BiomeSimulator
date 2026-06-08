@@ -16,6 +16,7 @@ public class TileData
 
     private HashSet<EntityBase> m_EntitiesOnTile = new();
     public IReadOnlyCollection<EntityBase> Entities => m_EntitiesOnTile;
+    public bool IsWalkable => !HasEntityOfType<RockEntity>();
     public bool IsOccupied => m_EntitiesOnTile.Count > 0;
 
     public TileData(Vector2Int tileIndex, Vector3 worldPosition)

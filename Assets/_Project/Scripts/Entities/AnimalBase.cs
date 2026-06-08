@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections.Generic;
 
 public abstract class AnimalBase : EntityBase
 {
@@ -78,8 +79,17 @@ public abstract class AnimalBase : EntityBase
     {
         TileData[] surroundingTiles = MapTileManager.Instance.GetSurroundingTiles(m_CurrentTile);
 
-        TileData randomTile = surroundingTiles[Random.Range(0, surroundingTiles.Length)];
-        if (randomTile != null) MoveToTile(randomTile);
+        List<TileData> walkableTiles = new();
+        foreach (TileData tile in surroundingTiles)
+        {
+            if (tile != null && tile.IsWalkable) walkableTiles.Add(tile);
+        }
+
+        if (walkableTiles.Count > 0)
+        {
+            TileData randomTile = walkableTiles[Random.Range(0, walkableTiles.Count)];
+            MoveToTile(randomTile);
+        }
 
         if (m_Energy > m_MaxEnergy * m_ReproductionThreshold)
         {
