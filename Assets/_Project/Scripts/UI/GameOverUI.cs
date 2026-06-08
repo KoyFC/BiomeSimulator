@@ -24,7 +24,7 @@ public class GameOverUI : MonoBehaviour
 
     private void DisplayGameOverPanelWithMessage(string message)
     {
-        m_GameOverMessageText.text = $"Game Over\nReason: {message}";
+        m_GameOverMessageText.text = $"Game Over\nReason: {message}\nTicks Survived: {TickManager.Instance.TickCount}";
         ShowGameOverPanel();
     }
 

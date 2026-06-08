@@ -14,6 +14,8 @@ public class TickManager : LazySingleton<TickManager>
     private float m_LastTimeScale = 1f;
 
     private bool m_GameOver = false;
+    private uint m_TickCount = 0;
+    public uint TickCount => m_TickCount;
 
     public static event Action<float> OnTimeScaleChanged;
 
@@ -42,6 +44,7 @@ public class TickManager : LazySingleton<TickManager>
         if (m_Timer <= 0f)
         {
             m_Timer += m_TickTime;
+            m_TickCount++;
             OnTick?.Invoke();
         }
     }
@@ -51,6 +54,13 @@ public class TickManager : LazySingleton<TickManager>
     {
         SetTimeScale(0f);
         m_GameOver = true;
+
+        uint bestTickCount = (uint)PlayerPrefs.GetInt("BestTickCount", 0);
+        if (m_TickCount > bestTickCount)
+        {
+            PlayerPrefs.SetInt("BestTickCount", (int)m_TickCount);
+            PlayerPrefs.Save();
+        }
     }
 
     public void SetTimeScale(float newTimeScale)
