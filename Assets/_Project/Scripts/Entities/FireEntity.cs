@@ -1,12 +1,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class FireEntity : EntityBase, IWaterReactor
+public class FireEntity : EntityBase, IWaterReactor, IThreat
 {
     [Header("Fire")]
     [SerializeField] private float m_DamagePerTick = 10f;
     [SerializeField] private int m_ExpandEveryTicks = 2;
     private int m_ExpandTickCounter = 0;
+
+    public ThreatType ThreatType => ThreatType.ENVIRONMENT;
 
     private bool m_HasFuel = false;
 

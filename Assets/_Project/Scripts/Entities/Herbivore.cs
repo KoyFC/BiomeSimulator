@@ -14,10 +14,10 @@ public class Herbivore : AnimalBase, IConsumable
         }
 
         // Could cause issues if multiple herbivores try to go to the same tile but it's fine for now
-        TileData[] surroundingTiles = MapTileManager.Instance.GetSurroundingTiles(m_CurrentTile);
+        TileData[] tilesInRadius = MapTileManager.Instance.GetTilesInRadius(m_CurrentTile, 2);
         TileData bestTile = null;
         float highestEnergy = 0f;
-        foreach (TileData tile in surroundingTiles)
+        foreach (TileData tile in tilesInRadius)
         {
             if (tile == null || !tile.IsWalkable) continue;
 
@@ -29,14 +29,36 @@ public class Herbivore : AnimalBase, IConsumable
             }
         }
 
-        if (bestTile != null)
+        if (bestTile == null)
+        {
+            m_CurrentState = AnimalState.WANDER; // Next tick, the herbivore will move to a random tile and enter this state again
+            return;
+        }
+
+        if ((m_CurrentTile.TileIndex - bestTile.TileIndex).sqrMagnitude <= 2)
         {
             MoveToTile(bestTile);
         }
         else
         {
-            // Next tick, the herbivore will move to a random tile and enter this state again
-            m_CurrentState = AnimalState.WANDER;
+            // Find the tile that gets closer to the best tile
+            TileData[] surroundingTiles = MapTileManager.Instance.GetSurroundingTiles(m_CurrentTile);
+            TileData nextStepTile = null;
+            float minDistance = float.MaxValue;
+            foreach (TileData adjacentTile in surroundingTiles)
+            {
+                if (adjacentTile != null && adjacentTile.IsWalkable)
+                {
+                    float dist = (adjacentTile.TileIndex - bestTile.TileIndex).sqrMagnitude;
+                    if (dist < minDistance)
+                    {
+                        minDistance = dist;
+                        nextStepTile = adjacentTile;
+                    }
+                }
+            }
+
+            if (nextStepTile != null) MoveToTile(nextStepTile);
         }
     }
 
@@ -78,6 +100,11 @@ public class Herbivore : AnimalBase, IConsumable
         {
             m_CurrentState = AnimalState.SEARCH_FOOD;
         }
+    }
+
+    protected override bool Fears(ThreatType type)
+    {
+        return type == ThreatType.ENVIRONMENT || type == ThreatType.PREDATOR;
     }
 
     #region IConsumable

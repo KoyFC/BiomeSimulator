@@ -171,6 +171,9 @@ MonoBehaviour:
   m_HungerThreshold: 1
   m_StopEatingThreshold: 0.8
   m_EnergyBiteSize: 10
+  m_VisionRadius: 2
+  m_PanicChance: 0.33
+  m_FleeEnergyMultiplier: 3
 --- !u!1 &7187559023369327883
 GameObject:
   m_ObjectHideFlags: 0

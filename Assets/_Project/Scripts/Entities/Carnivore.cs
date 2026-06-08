@@ -1,7 +1,7 @@
 using UnityEngine;
 
-// Basically the same as herbivores but looks for meat instead of plants
-public class Carnivore : AnimalBase
+// Almost the same as herbivores but looks for meat instead of plants
+public class Carnivore : AnimalBase, IThreat
 {
     protected override void HandleSearchFoodState()
     {
@@ -14,10 +14,10 @@ public class Carnivore : AnimalBase
             return;
         }
 
-        TileData[] surroundingTiles = MapTileManager.Instance.GetSurroundingTiles(m_CurrentTile);
+        TileData[] tilesInRadius = MapTileManager.Instance.GetTilesInRadius(m_CurrentTile, 2);
         TileData bestTile = null;
         float highestEnergy = 0f;
-        foreach (TileData tile in surroundingTiles)
+        foreach (TileData tile in tilesInRadius)
         {
             if (tile == null || !tile.IsWalkable) continue;
 
@@ -29,14 +29,36 @@ public class Carnivore : AnimalBase
             }
         }
 
-        if (bestTile != null)
+        if (bestTile == null)
+        {
+            m_CurrentState = AnimalState.WANDER; // Next tick, the herbivore will move to a random tile and enter this state again
+            return;
+        }
+
+        if ((m_CurrentTile.TileIndex - bestTile.TileIndex).sqrMagnitude <= 2)
         {
             MoveToTile(bestTile);
         }
         else
         {
-            // Next tick, the carnivore will move to a random tile and enter this state again
-            m_CurrentState = AnimalState.WANDER;
+            // Find the tile that gets closer to the best tile
+            TileData[] surroundingTiles = MapTileManager.Instance.GetSurroundingTiles(m_CurrentTile);
+            TileData nextStepTile = null;
+            float minDistance = float.MaxValue;
+            foreach (TileData adjacentTile in surroundingTiles)
+            {
+                if (adjacentTile != null && adjacentTile.IsWalkable)
+                {
+                    float dist = (adjacentTile.TileIndex - bestTile.TileIndex).sqrMagnitude;
+                    if (dist < minDistance)
+                    {
+                        minDistance = dist;
+                        nextStepTile = adjacentTile;
+                    }
+                }
+            }
+
+            if (nextStepTile != null) MoveToTile(nextStepTile);
         }
     }
 
@@ -45,7 +67,7 @@ public class Carnivore : AnimalBase
         if (m_CurrentTile == null) return;
 
         float energySpace = m_MaxEnergy - m_Energy;
-        if (energySpace <= 0f) 
+        if (energySpace <= 0f)
         {
             m_CurrentState = AnimalState.WANDER;
             return;
@@ -82,4 +104,13 @@ public class Carnivore : AnimalBase
             m_CurrentState = AnimalState.SEARCH_FOOD;
         }
     }
+
+    #region IThreat
+    public ThreatType ThreatType => ThreatType.PREDATOR;
+
+    protected override bool Fears(ThreatType type)
+    {
+        return type == ThreatType.ENVIRONMENT;
+    }
+    #endregion
 }

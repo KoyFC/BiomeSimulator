@@ -7,7 +7,8 @@ public abstract class AnimalBase : EntityBase
     {
         WANDER,
         SEARCH_FOOD,
-        EAT
+        EAT,
+        FLEE
     }
 
     protected AnimalState m_CurrentState = AnimalState.WANDER;
@@ -24,6 +25,13 @@ public abstract class AnimalBase : EntityBase
 
     [Header("Eating")]
     [SerializeField, Min(0f)] protected float m_EnergyBiteSize = 10f; // How much energy MAX the animal can get in a tick
+
+    [Header("Threats")]
+    [SerializeField, Min(1)] protected int m_VisionRadius = 2;
+    [SerializeField, Range(0f, 1f)] protected float m_PanicChance = 0.2f; // Chance to not move when fleeing
+    [SerializeField, Min(1f)] protected float m_FleeEnergyMultiplier = 3f;
+
+    protected virtual bool Fears(ThreatType type) { return false; }
 
     public override void Initialize(TileData startingTile, EntityDataSO entityData)
     {
@@ -60,6 +68,16 @@ public abstract class AnimalBase : EntityBase
         base.OnTick();
         if (IsDead) return;
 
+        EntityBase nearestThreat = CheckForNearestThreat();
+        if (nearestThreat != null)
+        {
+            m_CurrentState = AnimalState.FLEE;
+        }
+        else if (m_CurrentState == AnimalState.FLEE)
+        {
+            m_CurrentState = AnimalState.WANDER;
+        }
+
         switch (m_CurrentState)
         {
             case AnimalState.WANDER:
@@ -71,7 +89,38 @@ public abstract class AnimalBase : EntityBase
             case AnimalState.EAT:
                 HandleEatState();
                 break;
+            case AnimalState.FLEE:
+                HandleFleeState(nearestThreat);
+                break;
         }
+    }
+
+    private EntityBase CheckForNearestThreat()
+    {
+        EntityBase nearestThreat = null;
+        float minThreatDistance = float.MaxValue;
+        TileData[] visibleTiles = MapTileManager.Instance.GetTilesInRadius(m_CurrentTile, m_VisionRadius);
+        if (visibleTiles != null)
+        {
+            foreach (TileData tile in visibleTiles)
+            {
+                if (tile == null) continue;
+                foreach (EntityBase entity in tile.Entities)
+                {
+                    if (entity is IThreat threat && Fears(threat.ThreatType))
+                    {
+                        float distance = (m_CurrentTile.TileIndex - tile.TileIndex).sqrMagnitude;
+                        if (distance < minThreatDistance)
+                        {
+                            minThreatDistance = distance;
+                            nearestThreat = entity;
+                        }
+                    }
+                }
+            }
+        }
+
+        return nearestThreat;
     }
 
     #region State Handlers
@@ -129,6 +178,39 @@ public abstract class AnimalBase : EntityBase
 
     protected abstract void HandleSearchFoodState();
     protected abstract void HandleEatState();
+
+    protected virtual void HandleFleeState(EntityBase threat)
+    {
+        if (threat == null || threat.CurrentTile == null) return;
+
+        float energyCost = m_EnergyConsumptionPerSecond * TickManager.TickTime * (m_FleeEnergyMultiplier - 1f); // Subtract 1 since normal energy cost was already applied in OnTick
+
+        if (Random.value < m_PanicChance)
+        {
+            ConsumeEnergy(energyCost);
+            return;
+        }
+
+        // Find tile that is furthest from the threat
+        TileData[] surroundingTiles = MapTileManager.Instance.GetSurroundingTiles(m_CurrentTile);
+        TileData bestEscapeTile = null;
+        float maxDistance = float.MinValue;
+
+        foreach (TileData tile in surroundingTiles)
+        {
+            if (tile == null || !tile.IsWalkable) continue;
+
+            float distance = (tile.TileIndex - threat.CurrentTile.TileIndex).sqrMagnitude;
+            if (distance > maxDistance)
+            {
+                maxDistance = distance;
+                bestEscapeTile = tile;
+            }
+        }
+
+        if (bestEscapeTile != null) MoveToTile(bestEscapeTile);
+        ConsumeEnergy(energyCost);
+    }
     #endregion
 
 }
