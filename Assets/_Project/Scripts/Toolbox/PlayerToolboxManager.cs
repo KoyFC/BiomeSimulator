@@ -27,14 +27,19 @@ public class PlayerToolboxManager : Singleton<PlayerToolboxManager>
         if (m_ToolSlots.Length > 0) m_CurrentToolSlot = m_ToolSlots[0];
 
         TileOverlayManager.OnVisualizationModeChanged += OnVisualizationModeChanged;
-        EntityManager.OnGameOver += message => enabled = false;
+        EntityManager.OnGameOver += HandleGameOver;
     }
 
     protected override void OnDestroy()
     {
         base.OnDestroy();
         TileOverlayManager.OnVisualizationModeChanged -= OnVisualizationModeChanged;
-        EntityManager.OnGameOver -= message => enabled = false;
+        EntityManager.OnGameOver -= HandleGameOver;
+    }
+
+    private void HandleGameOver(string message)
+    {
+        enabled = false;
     }
 
     private void Update()
