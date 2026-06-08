@@ -140,13 +140,35 @@ public class EntityManager : Singleton<EntityManager>
 
     private void CheckGameOver()
     {
-        if (!m_EntityCounts.ContainsKey(typeof(PlantBase)))
+        bool noPlants = !m_EntityCounts.ContainsKey(typeof(PlantBase));
+        bool noHerbivores = !m_EntityCounts.ContainsKey(typeof(Herbivore));
+        bool noCarnivores = !m_EntityCounts.ContainsKey(typeof(Carnivore));
+        if (noPlants)
         {
             OnGameOver?.Invoke("All plants died.");
+            return;
         }
-        else if (!m_EntityCounts.ContainsKey(typeof(Herbivore)))
+        else if (noHerbivores)
         {
             OnGameOver?.Invoke("All herbivores died.");
+            return;
+        }
+        else if (noCarnivores)
+        {
+            OnGameOver?.Invoke("All carnivores died.");
+            return;
+        }
+
+        bool herbivoresCantReproduce = m_EntityCounts[typeof(Herbivore)] <= 1;
+        bool carnivoresCantReproduce = m_EntityCounts[typeof(Carnivore)] <= 1;
+
+        if (herbivoresCantReproduce)
+        {
+            OnGameOver?.Invoke("Herbivores can't reproduce.");
+        }
+        else if (carnivoresCantReproduce)
+        {
+            OnGameOver?.Invoke("Carnivores can't reproduce.");
         }
     }
 
