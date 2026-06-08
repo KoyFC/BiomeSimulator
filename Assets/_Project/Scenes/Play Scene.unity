@@ -1594,7 +1594,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerToolboxManager
   m_ToolSlots:
   - <VisualizationMode>k__BackingField: 0
-    <Tools>k__BackingField: []
+    <Tools>k__BackingField:
+    - {fileID: 11400000, guid: 4603c726e3b339fe7af3e91c8722ed51, type: 2}
+    - {fileID: 11400000, guid: a2b30c4bf7f69fb1d989d1878b113816, type: 2}
   - <VisualizationMode>k__BackingField: 1
     <Tools>k__BackingField:
     - {fileID: 11400000, guid: 3c536ab8c66dede79b4bbfb3898fa3fc, type: 2}
