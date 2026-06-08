@@ -17,7 +17,7 @@ public class EntityManager : Singleton<EntityManager>
     [Header("Spawn Settings")]
     [SerializeField] private bool m_SpawnOnStart;
     [SerializeField] private EntitySpawnData[] m_EntitiesToSpawn;
-    private List<EntityBase> m_SpawnedEntities = new();
+    private HashSet<EntityBase> m_SpawnedEntities = new();
     private float m_CurrentEntityAlpha = 1f;
 
     private Dictionary<Type, int> m_EntityCounts = new();
