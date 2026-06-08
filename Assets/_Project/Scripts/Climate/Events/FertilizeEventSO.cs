@@ -4,9 +4,7 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "Fertilize Event", menuName = "Scriptable Objects/Climate Events/Fertilize Event")]
 public class FertilizeEventSO : ClimateEventBaseSO
 {
-    [field: SerializeField] public override string EventName { get; protected set; } = "Fertilize";
-    [field: SerializeField] public override int DurationTicks { get; protected set; } = 10;
-
+    [Header("Fertilizer")]
     [SerializeField] private float m_NutrientsPerTick = 5f;
 
     private IReadOnlyList<TileData> m_Tiles;

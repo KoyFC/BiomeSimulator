@@ -3,8 +3,9 @@ using UnityEngine;
 // [CreateAssetMenu(fileName = "ClimateEventBaseSO", menuName = "Scriptable Objects/ClimateEventBaseSO")]
 public abstract class ClimateEventBaseSO : ScriptableObject
 {
-    public abstract string EventName { get; protected set; }
-    public abstract int DurationTicks { get; protected set; }
+    [field: SerializeField] public string EventName { get; protected set; } = "Event";
+    [field: SerializeField] public int DurationTicks { get; protected set; } = 10;
+    [field: SerializeField, TextArea] public string Description { get; protected set; } = "";
 
     protected int m_TicksRemaining;
     public bool IsFinished => m_TicksRemaining <= 0;

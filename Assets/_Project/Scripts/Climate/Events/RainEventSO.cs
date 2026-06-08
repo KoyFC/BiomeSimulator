@@ -4,9 +4,7 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "Rain Event", menuName = "Scriptable Objects/Climate Events/Rain Event")]
 public class RainEventSO : ClimateEventBaseSO
 {
-    [field: SerializeField] public override string EventName { get; protected set; } = "Rain";
-    [field: SerializeField] public override int DurationTicks { get; protected set; } = 10;
-
+    [Header("Rain")]
     [SerializeField] private float m_HumidityPerTick = 5f;
 
     private IReadOnlyList<TileData> m_Tiles;
