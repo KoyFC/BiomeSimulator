@@ -12,6 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1f9c3bd26411199a8b8ace916977f51c, type: 3}
   m_Name: Fertilize Event
   m_EditorClassIdentifier: Assembly-CSharp::FertilizeEventSO
-  <EventName>k__BackingField: Green Rain
+  <EventName>k__BackingField: Fertilizer Fairy
   <DurationTicks>k__BackingField: 10
-  m_NutrientsPerTick: 10
+  <Description>k__BackingField: A fairy flew by! For 10 ticks, every tile will be
+    progressively fertilized.
+  m_NutrientsPerTick: 15

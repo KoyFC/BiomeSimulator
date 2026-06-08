@@ -14,4 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::RainEventSO
   <EventName>k__BackingField: Rain
   <DurationTicks>k__BackingField: 10
-  m_HumidityPerTick: 10
+  <Description>k__BackingField: It started raining! For 10 ticks, every tile will
+    get hydrated.
+  m_HumidityPerTick: 15
