@@ -170,9 +170,12 @@ MonoBehaviour:
   m_ReproductionThreshold: 0.9
   m_ReproductionEnergyCost: 0.5
   m_TimeToMoveBetweenTiles: 0.5
-  m_HungerThreshold: 0.6
+  m_HungerThreshold: 0.75
   m_StopEatingThreshold: 0.8
   m_EnergyBiteSize: 50
+  m_VisionRadius: 2
+  m_PanicChance: 0.2
+  m_FleeEnergyMultiplier: 3
 --- !u!1 &8349768930502073216
 GameObject:
   m_ObjectHideFlags: 0

@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Damage Tool
   m_EditorClassIdentifier: Assembly-CSharp::DamageToolSO
   <Name>k__BackingField: Bomb
-  <Icon>k__BackingField: {fileID: 0}
+  <Icon>k__BackingField: {fileID: 21300000, guid: 4b3d9448fedf7dfb6b4c0d60d090c20c, type: 3}
   <Description>k__BackingField: 
   m_DealLethalDamage: 1
   m_Damage: 100

@@ -10,9 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3335912949fbbf70cb1eac41a28e3ef9, type: 3}
-  m_Name: Rock Tool
+  m_Name: Do Nothing
   m_EditorClassIdentifier: Assembly-CSharp::RockToolSO
-  <Name>k__BackingField: Place Rock
-  <Icon>k__BackingField: {fileID: 21300000, guid: 27c126f677afa56109ff9ca73bc9a8e6, type: 3}
-  <Description>k__BackingField: 
-  m_EntityData: {fileID: 11400000, guid: 313e8736eafad1708a19dbc5be805904, type: 2}
+  <Name>k__BackingField: Nothing
+  <Icon>k__BackingField: {fileID: 21300000, guid: e525c00938762c3f7b33a40ab58d584c, type: 3}
+  <Description>k__BackingField: Does nothing. Trust me, it's better this way to avoid
+    accidentally placing a gazillion rocks when changing mode.
+  m_EntityData: {fileID: 0}
