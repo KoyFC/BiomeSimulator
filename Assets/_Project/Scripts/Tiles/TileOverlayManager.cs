@@ -26,14 +26,7 @@ public class TileOverlayManager : Singleton<TileOverlayManager>
         m_OverlayTexture = new Texture2D(tileQuantity.x, tileQuantity.y);
         m_OverlayTexture.filterMode = FilterMode.Point;
 
-        var tiles = MapTileManager.Instance.Tiles;
-        foreach (TileData tile in tiles)
-        {
-            UpdateOverlayForTile(tile);
-        }
-        m_OverlayTexture.Apply();
-
-        SetVisualizationMode(m_CurrentMode);
+        SetVisualizationMode(VisualizationMode.NORMAL);
 
         Shader.SetGlobalTexture(OVERLAY_TEXTURE_NAME, m_OverlayTexture);
 
@@ -53,7 +46,6 @@ public class TileOverlayManager : Singleton<TileOverlayManager>
         {
             VisualizationMode nextMode = (VisualizationMode)(((int)m_CurrentMode + 1) % Enum.GetValues(typeof(VisualizationMode)).Length);
             SetVisualizationMode(nextMode);
-            m_CurrentMode = nextMode;
         }
     }
 
@@ -68,19 +60,42 @@ public class TileOverlayManager : Singleton<TileOverlayManager>
 
     private void UpdateOverlayForTile(TileData tileData)
     {
-        float humidityNormalized = tileData.Humidity / TileData.MAX_HUMIDITY;
-        float nutrientsNormalized = tileData.Nutrients / TileData.MAX_NUTRIENTS;
+        if (m_CurrentMode == VisualizationMode.NORMAL) return;
 
-        Color overlayColor = new Color(0f, nutrientsNormalized, humidityNormalized, 1f);
         Vector2Int tileQuantity = MapTileManager.Instance.TileQuantity;
         int flippedX = (tileQuantity.x - 1) - tileData.TileIndex.x;
         int flippedY = (tileQuantity.y - 1) - tileData.TileIndex.y;
-        m_OverlayTexture.SetPixel(flippedX, flippedY, overlayColor);
+
+        if (m_CurrentMode == VisualizationMode.NUTRIENTS)
+        {
+            float val = tileData.Nutrients / TileData.MAX_NUTRIENTS;
+            m_OverlayTexture.SetPixel(flippedX, flippedY, new Color(0f, val, 0f, 1f));
+        }
+        else if (m_CurrentMode == VisualizationMode.HUMIDITY)
+        {
+            float val = tileData.Humidity / TileData.MAX_HUMIDITY;
+            m_OverlayTexture.SetPixel(flippedX, flippedY, new Color(0f, 0f, val, 1f));
+        }
+
         m_IsDirty = true;
+    }
+
+    private void RefreshTexture()
+    {
+        if (m_CurrentMode == VisualizationMode.NORMAL) return;
+
+        foreach (TileData tile in MapTileManager.Instance.Tiles)
+        {
+            UpdateOverlayForTile(tile);
+        }
+        m_OverlayTexture.Apply();
+        m_IsDirty = false;
     }
 
     public void SetVisualizationMode(VisualizationMode mode)
     {
+        m_CurrentMode = mode;
+
         m_OverlayMaterial.DisableKeyword(OVERLAY_VISUALIZATION_NORMAL);
         m_OverlayMaterial.DisableKeyword(OVERLAY_VISUALIZATION_NUTRIENTS);
         m_OverlayMaterial.DisableKeyword(OVERLAY_VISUALIZATION_HUMIDITY);
@@ -101,6 +116,7 @@ public class TileOverlayManager : Singleton<TileOverlayManager>
                 break;
         }
 
+        RefreshTexture();
         OnVisualizationModeChanged?.Invoke(mode);
     }
 }
