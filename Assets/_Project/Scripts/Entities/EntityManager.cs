@@ -152,10 +152,14 @@ public class EntityManager : Singleton<EntityManager>
 
     public Pool<EntityBase> GetPoolForEntity(EntityDataSO entityData)
     {
-        if (m_EntityPools.TryGetValue(entityData.Prefab, out Pool<EntityBase> pool))
+        Pool<EntityBase> pool;
+        if (m_EntityPools.TryGetValue(entityData.Prefab, out pool))
         {
             return pool;
         }
-        return null;
+
+        pool = new(() => Instantiate(entityData.Prefab));
+        m_EntityPools[entityData.Prefab] = pool;
+        return pool;
     }
 }

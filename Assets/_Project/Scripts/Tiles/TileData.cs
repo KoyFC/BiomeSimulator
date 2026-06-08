@@ -15,6 +15,7 @@ public class TileData
     public static event Action<TileData> OnTileDataChanged;
 
     private HashSet<EntityBase> m_EntitiesOnTile = new();
+    public IReadOnlyCollection<EntityBase> Entities => m_EntitiesOnTile;
     public bool IsOccupied => m_EntitiesOnTile.Count > 0;
 
     public TileData(Vector2Int tileIndex, Vector3 worldPosition)
@@ -26,6 +27,18 @@ public class TileData
     #region Public Methods
     public void AddHumidity(float amount)
     {
+        if (amount > 0f)
+        {
+            List<EntityBase> entities = new List<EntityBase>(m_EntitiesOnTile);
+            foreach (var entity in entities)
+            {
+                if (entity is IWaterReactor reactor)
+                {
+                    reactor.OnWaterAdded(amount);
+                }
+            }
+        }
+
         Humidity = Mathf.Clamp(Humidity + amount, 0f, MAX_HUMIDITY);
         OnTileDataChanged?.Invoke(this);
     }

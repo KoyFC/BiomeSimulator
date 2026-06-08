@@ -84,6 +84,11 @@ public abstract class EntityBase : MonoBehaviour
         }
     }
 
+    public void TakeDamage(float amount)
+    {
+        ConsumeEnergy(amount);
+    }
+
     protected virtual void Die()
     {
         if (m_IsDead) return;

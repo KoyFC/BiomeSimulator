@@ -344,7 +344,7 @@ MonoBehaviour:
   m_fontSizeBase: 26.67
   m_fontWeight: 400
   m_enableAutoSizing: 1
-  m_fontSizeMin: 18
+  m_fontSizeMin: 2
   m_fontSizeMax: 36
   m_fontStyle: 3
   m_HorizontalAlignment: 1
@@ -4189,6 +4189,7 @@ MonoBehaviour:
   m_ClimateEvents:
   - {fileID: 11400000, guid: 39e847f9bdb7bd0cfa27c935e8e4cf0c, type: 2}
   - {fileID: 11400000, guid: 4fd95a2fbdedb967aad4930840533f5d, type: 2}
+  - {fileID: 11400000, guid: a712665f2f6d39018927882750652b96, type: 2}
 --- !u!4 &2090222682
 Transform:
   m_ObjectHideFlags: 0
