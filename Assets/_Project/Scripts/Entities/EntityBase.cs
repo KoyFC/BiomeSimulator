@@ -4,6 +4,7 @@ public abstract class EntityBase : MonoBehaviour
 {
     protected TileData m_CurrentTile = null;
     public TileData CurrentTile => m_CurrentTile;
+    public EntityDataSO EntityData { get; private set; }
 
     private bool m_IsDead = false;
     public bool IsDead => m_IsDead;
@@ -30,9 +31,11 @@ public abstract class EntityBase : MonoBehaviour
     public float Energy => m_Energy;
     public float MaxEnergy => m_MaxEnergy;
 
-    public virtual void Initialize(TileData startingTile)
+    public virtual void Initialize(TileData startingTile, EntityDataSO entityData)
     {
+        EntityData = entityData;
         m_Energy = m_InitialEnergy;
+        m_IsDead = false;
 
         SetCurrentTile(startingTile);
         transform.position = startingTile.WorldPosition;
@@ -96,7 +99,16 @@ public abstract class EntityBase : MonoBehaviour
 
         m_CurrentTile?.RemoveEntity(this);
         EntityManager.Instance.RemoveEntity(this);
-        Destroy(gameObject);
+
+        Pool<EntityBase> pool = EntityManager.Instance.GetPoolForEntity(EntityData);
+        if (pool != null)
+        {
+            pool.Release(this);
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
     }
     #endregion
 

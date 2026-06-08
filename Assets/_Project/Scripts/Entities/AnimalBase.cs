@@ -24,9 +24,9 @@ public abstract class AnimalBase : EntityBase
     [Header("Eating")]
     [SerializeField, Min(0f)] protected float m_EnergyBiteSize = 10f; // How much energy MAX the animal can get in a tick
 
-    public override void Initialize(TileData startingTile)
+    public override void Initialize(TileData startingTile, EntityDataSO entityData)
     {
-        base.Initialize(startingTile);
+        base.Initialize(startingTile, entityData);
         m_MoveTimer = m_TimeToMoveBetweenTiles;
     }
 
@@ -105,8 +105,11 @@ public abstract class AnimalBase : EntityBase
         TileData childTile = MapTileManager.Instance.GetRandomNeighborWithout<AnimalBase>(m_CurrentTile);
         if (childTile == null) return;
 
-        AnimalBase child = Instantiate(gameObject, childTile.WorldPosition, Quaternion.identity).GetComponent<AnimalBase>();
-        child.Initialize(childTile);
+        // AnimalBase child = Instantiate(gameObject, childTile.WorldPosition, Quaternion.identity).GetComponent<AnimalBase>();
+        Pool<EntityBase> pool = EntityManager.Instance.GetPoolForEntity(EntityData);
+        if (pool == null) return;
+        AnimalBase child = pool.Get() as AnimalBase;
+        child.Initialize(childTile, EntityData);
 
         // Both parents lose energy
         float energyCost = m_MaxEnergy * m_ReproductionEnergyCost;

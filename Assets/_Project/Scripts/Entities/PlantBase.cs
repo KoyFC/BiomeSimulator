@@ -34,8 +34,11 @@ public class PlantBase : EntityBase, IConsumable
         TileData emptyNeighbor = MapTileManager.Instance.GetRandomNeighborWithout<PlantBase>(m_CurrentTile);
         if (emptyNeighbor == null) return;
 
-        PlantBase child = Instantiate(gameObject, emptyNeighbor.WorldPosition, Quaternion.identity).GetComponent<PlantBase>();
-        child.Initialize(emptyNeighbor);
+        // PlantBase child = Instantiate(gameObject, emptyNeighbor.WorldPosition, Quaternion.identity).GetComponent<PlantBase>();
+        Pool<EntityBase> pool = EntityManager.Instance.GetPoolForEntity(EntityData);
+        if (pool == null) return;
+        PlantBase child = pool.Get() as PlantBase;
+        child.Initialize(emptyNeighbor, EntityData);
 
         AddEnergy(-m_MaxEnergy * m_ReproductionEnergyCost);
     }

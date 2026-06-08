@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Pool;
 
 [Serializable]
 public class EntitySpawnData
@@ -8,6 +9,7 @@ public class EntitySpawnData
     [field: SerializeField] public EntityDataSO EntityData { get; private set; }
     [field: SerializeField] public int Amount { get; private set; }
     [field: SerializeField] public bool SpawnCluster { get; private set; } // 3x3
+    [field: SerializeField] public int PrewarmCount { get; private set; } = 50;
 }
 
 public class EntityManager : Singleton<EntityManager>
@@ -19,14 +21,27 @@ public class EntityManager : Singleton<EntityManager>
     private float m_CurrentEntityAlpha = 1f;
 
     private Dictionary<Type, int> m_EntityCounts = new();
+    private Dictionary<EntityBase, Pool<EntityBase>> m_EntityPools = new(); // Associates a prefab with its pool
 
     public static event Action<string> OnGameOver;
 
     private void Start()
     {
+        PrewarmPools();
+
         if (m_SpawnOnStart)
         {
             SpawnEntities();
+        }
+    }
+
+    private void PrewarmPools()
+    {
+        foreach (var spawnData in m_EntitiesToSpawn)
+        {
+            Pool<EntityBase> pool = new(() => Instantiate(spawnData.EntityData.Prefab));
+            pool.Prewarm(spawnData.PrewarmCount);
+            m_EntityPools[spawnData.EntityData.Prefab] = pool;
         }
     }
 
@@ -53,8 +68,20 @@ public class EntityManager : Singleton<EntityManager>
 
     private void SpawnEntity(EntitySpawnData spawnData, TileData tile)
     {
-        var entity = Instantiate(spawnData.EntityData.Prefab, tile.WorldPosition, Quaternion.identity);
-        entity.Initialize(tile);
+        // var entity = Instantiate(spawnData.EntityData.Prefab, tile.WorldPosition, Quaternion.identity);
+        // entity.Initialize(tile);
+        var prefab = spawnData.EntityData.Prefab;
+        Pool<EntityBase> pool;
+
+        if (!m_EntityPools.TryGetValue(prefab, out pool))
+        {
+            pool = new(() => Instantiate(prefab));
+            m_EntityPools[prefab] = pool;
+        }
+
+        EntityBase entity = pool.Get();
+        entity.transform.SetPositionAndRotation(tile.WorldPosition, Quaternion.identity);
+        entity.Initialize(tile, spawnData.EntityData);
     }
 
     private void SpawnCluster(EntitySpawnData spawnData, TileData randomTile)
@@ -121,5 +148,14 @@ public class EntityManager : Singleton<EntityManager>
         {
             OnGameOver?.Invoke("All herbivores died.");
         }
+    }
+
+    public Pool<EntityBase> GetPoolForEntity(EntityDataSO entityData)
+    {
+        if (m_EntityPools.TryGetValue(entityData.Prefab, out Pool<EntityBase> pool))
+        {
+            return pool;
+        }
+        return null;
     }
 }
