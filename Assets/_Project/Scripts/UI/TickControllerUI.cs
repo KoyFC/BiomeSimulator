@@ -12,6 +12,16 @@ public class TickControllerUI : MonoBehaviour
     private Button[] m_Buttons;
     private Image m_LastClickedButtonImage;
 
+    private void OnEnable()
+    {
+        TickManager.OnTimeScaleChanged += OnTimeScaleChanged;
+    }
+
+    private void OnDisable()
+    {
+        TickManager.OnTimeScaleChanged -= OnTimeScaleChanged;
+    }
+
     private void Start()
     {
         m_Buttons = new Button[m_TickSpeeds.Length];
@@ -42,5 +52,20 @@ public class TickControllerUI : MonoBehaviour
         m_LastClickedButtonImage.color = Color.white;
         m_LastClickedButtonImage = button.GetComponent<Image>();
         button.GetComponent<Image>().color = m_SelectedColor;
+    }
+
+    private void OnTimeScaleChanged(float newTimeScale)
+    {
+        for (int i = 0; i < m_TickSpeeds.Length; i++)
+        {
+            if (Mathf.Approximately(m_TickSpeeds[i], newTimeScale))
+            {
+                Button button = m_Buttons[i];
+                m_LastClickedButtonImage.color = Color.white;
+                m_LastClickedButtonImage = button.GetComponent<Image>();
+                button.GetComponent<Image>().color = m_SelectedColor;
+                break;
+            }
+        }
     }
 }

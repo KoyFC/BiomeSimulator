@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class TickManager : LazySingleton<TickManager>
 {
@@ -8,10 +9,13 @@ public class TickManager : LazySingleton<TickManager>
 
     [SerializeField, Min(0.01f)] private float m_TickTime = 0.5f;
     [SerializeField, Min(0f)] private float m_TimeScale = 1f;
-    private float m_Timer = 0f;
     public float TimeScale => m_TimeScale;
+    private float m_Timer = 0f;
+    private float m_LastTimeScale = 1f;
 
     private bool m_GameOver = false;
+
+    public static event Action<float> OnTimeScaleChanged;
 
     #region Unity Methods
     private void Start()
@@ -28,6 +32,12 @@ public class TickManager : LazySingleton<TickManager>
 
     private void Update()
     {
+        if (Keyboard.current.spaceKey.wasPressedThisFrame)
+        {
+            float newTimeScale = m_TimeScale == 0f ? m_LastTimeScale : 0f;
+            SetTimeScale(newTimeScale);
+        }
+
         m_Timer -= Time.deltaTime * m_TimeScale;
         if (m_Timer <= 0f)
         {
@@ -46,6 +56,8 @@ public class TickManager : LazySingleton<TickManager>
     public void SetTimeScale(float newTimeScale)
     {
         if (m_GameOver) return;
+        m_LastTimeScale = m_TimeScale;
         m_TimeScale = Mathf.Max(0f, newTimeScale);
+        OnTimeScaleChanged?.Invoke(m_TimeScale);
     }
 }
