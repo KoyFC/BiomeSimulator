@@ -14,11 +14,12 @@ public class ToolboxUI : MonoBehaviour
     private void Awake()
     {
         PlayerToolboxManager.OnToolsChanged += UpdateToolboxUI;
+        EntityManager.OnGameOver += OnGameOver;
+        m_BrushSizeSlider.onValueChanged.AddListener(OnBrushSizeChanged);
     }
 
     private void Start()
     {
-        m_BrushSizeSlider.onValueChanged.AddListener(OnBrushSizeChanged);
         m_BrushSizeSlider.minValue = 1;
         m_BrushSizeSlider.maxValue = PlayerToolboxManager.Instance.MaxBrushSize;
         m_BrushSizeSlider.value = PlayerToolboxManager.Instance.BrushSize;
@@ -27,6 +28,7 @@ public class ToolboxUI : MonoBehaviour
     private void OnDestroy()
     {
         PlayerToolboxManager.OnToolsChanged -= UpdateToolboxUI;
+        EntityManager.OnGameOver -= OnGameOver;
         m_BrushSizeSlider.onValueChanged.RemoveListener(OnBrushSizeChanged);
     }
 
@@ -58,5 +60,10 @@ public class ToolboxUI : MonoBehaviour
         if (roundedSize % 2 == 0) roundedSize += 1;
 
         PlayerToolboxManager.Instance.BrushSize = roundedSize;
+    }
+
+    private void OnGameOver(string message)
+    {
+        gameObject.SetActive(false);
     }
 }
